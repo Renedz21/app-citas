@@ -1,91 +1,113 @@
-import { useCallback, useMemo, useRef } from "react";
-import { ImageBackground, Platform, Pressable, Text, View } from "react-native";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { useRouter } from "expo-router";
+import { View, Text, TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView } from "react-native-keyboard-controller";
+import { useAuth } from "@/modules/core/hooks/use-auth";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/modules/core/components/ui/form";
+import { Input } from "@/modules/core/components/ui/input";
+import { router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-function AuthSheetContent() {
-  return (
-    <View className="gap-3 p-4">
-      <Pressable className="items-center rounded-full bg-blue-600 py-4">
-        <Text className="text-base font-semibold text-white">Sign Up</Text>
-      </Pressable>
-      <Pressable className="items-center rounded-full bg-neutral-900 py-4">
-        <Text className="text-base font-semibold text-white">
-          Login to Montek
-        </Text>
-      </Pressable>
-      <View className="my-2 h-px bg-neutral-200" />
-      <Pressable className="flex-row items-center justify-center gap-3 rounded-full bg-white py-4">
-        <Text className="text-base font-medium text-neutral-900">
-          Continue with Apple
-        </Text>
-      </Pressable>
-      <Pressable className="flex-row items-center justify-center gap-3 rounded-full bg-white py-4">
-        <Text className="text-base font-medium text-neutral-900">
-          Continue with Google
-        </Text>
-      </Pressable>
-    </View>
-  );
-}
-
-export default function SignIn() {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const snapPoints = useMemo(() => ["35%"], []);
-
-  const openSheet = useCallback(() => {
-    bottomSheetRef.current?.expand();
-  }, []);
+export default function LoginScreen() {
+  const { form, onSubmit } = useAuth("login");
 
   return (
-    <View className="flex-1 bg-neutral-900">
-      <ImageBackground
-        source={require("../../assets/images/splash-icon.png")}
-        resizeMode="cover"
-        className="flex-1"
+    <SafeAreaView className="flex-1 bg-gray-50 px-6">
+      <KeyboardAvoidingView
+        behavior={"padding"}
+        className="flex-1 justify-center"
       >
-        <View className="flex-1 justify-between p-6">
-          <View className="pt-4">
-            <Text className="text-lg text-white/90">Welcome to Montek 👋</Text>
-          </View>
-          <View>
-            <Text className="mb-6 text-4xl font-extrabold leading-[42px] text-white">
-              Better Homes,
-              {"\n"}Smarter, For
-              {"\n"}Your Finance.
-            </Text>
-            <Pressable
-              accessibilityRole="button"
-              onPress={openSheet}
-              className="items-center rounded-full bg-white py-4"
-              android_ripple={{ color: "#e5e7eb" }}
-            >
-              <Text className="text-base font-semibold text-neutral-900">
-                Let's Go!
+        <View className="mb-12 flex-col gap-4">
+          <View className="flex-row items-center justify-start">
+            <TouchableOpacity onPress={() => router.back()}>
+              <Text className="text-sm font-semibold text-blue-600">
+                Volver
               </Text>
-            </Pressable>
+            </TouchableOpacity>
+          </View>
+          <View className="flex-col">
+            <Text className="text-4xl font-extrabold text-gray-900">
+              Inicia sesión
+            </Text>
+            <Text className="mt-2 text-base text-gray-500">
+              Accede a tu cuenta para continuar
+            </Text>
           </View>
         </View>
-      </ImageBackground>
 
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={-1}
-        snapPoints={snapPoints}
-        enablePanDownToClose
-        android_keyboardInputMode={Platform.select({ android: "adjustResize" })}
-        keyboardBehavior={Platform.select({
-          ios: "interactive",
-          android: "extend",
-        })}
-        backgroundStyle={{ backgroundColor: "#ffffff" }}
-        handleIndicatorStyle={{ backgroundColor: "#e5e7eb" }}
-      >
-        <BottomSheetView>
-          <AuthSheetContent />
-        </BottomSheetView>
-      </BottomSheet>
-    </View>
+        <View className="flex-col gap-5">
+          <Form {...form}>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Correo electrónico</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Ingresa tu correo electrónico"
+                      {...field}
+                      value={field.value}
+                      onChangeText={field.onChange}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                      autoComplete="email"
+                      autoCorrect={false}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Contraseña</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Ingresa tu contraseña"
+                      {...field}
+                      value={field.value}
+                      onChangeText={field.onChange}
+                      keyboardType="default"
+                      autoCapitalize="none"
+                      autoComplete="password"
+                      autoCorrect={false}
+                      secureTextEntry
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </Form>
+
+          <TouchableOpacity>
+            <Text className="mt-1 text-sm font-semibold text-blue-600">
+              ¿Olvidaste tu contraseña?
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity
+          className="mt-10 rounded-2xl bg-blue-600 py-4"
+          activeOpacity={0.9}
+          onPress={form.handleSubmit(onSubmit)}
+        >
+          <Text className="text-center text-lg font-semibold text-white">
+            {form.formState.isSubmitting
+              ? "Iniciando sesión..."
+              : "Iniciar sesión"}
+          </Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
