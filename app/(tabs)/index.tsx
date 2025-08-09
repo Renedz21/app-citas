@@ -5,7 +5,7 @@ export default function HomeScreen() {
   return (
     <View>
       <Text>Home</Text>
-      <Link href="/(auth)/sign-in">Sign In</Link>
+      <Link href="/(auth)">Go to auth</Link>
     </View>
   );
 }
