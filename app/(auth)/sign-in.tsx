@@ -10,104 +10,132 @@ import {
   FormMessage
 } from '@/modules/core/components/ui/form';
 import { Input } from '@/modules/core/components/ui/input';
-import { router } from 'expo-router';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function LoginScreen() {
   const { form, onSubmit } = useSignIn();
+  const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50 px-6">
-      <KeyboardAvoidingView
-        behavior={'padding'}
-        className="flex-1 justify-center"
-      >
-        <View className="mb-12 flex-col gap-4">
-          <View className="flex-row items-center justify-start">
-            <TouchableOpacity onPress={() => router.back()}>
-              <Text className="text-sm font-semibold text-blue-600">
-                Volver
+    <View className="flex-1 bg-white px-6">
+      <View className="bg-white border-b border-slate-200 py-4">
+        <View className="flex-row items-center">
+          <TouchableOpacity
+            onPress={() => router.back()}
+            className="p-2 -ml-2 mr-3"
+          >
+            <Ionicons name="arrow-back" size={24} color="#64748B" />
+          </TouchableOpacity>
+          <View>
+            <Text className="text-slate-900 text-xl font-semibold">
+              Iniciar Sesión
+            </Text>
+            <Text className="text-slate-500 text-sm">
+              Accede a tu cuenta profesional
+            </Text>
+          </View>
+        </View>
+      </View>
+      <KeyboardAvoidingView behavior={'padding'} className="flex-1">
+        {/* Content */}
+        <View className="flex-1 py-8 justify-center">
+          <View className="mb-8">
+            <View className="w-16 h-16 bg-indigo-100 rounded-full items-center justify-center mb-6 self-center">
+              <Ionicons name="medical" size={32} color="#4F46E5" />
+            </View>
+            <Text className="text-slate-900 text-2xl font-bold text-center mb-2">
+              Bienvenido de vuelta
+            </Text>
+            <Text className="text-slate-600 text-center">
+              Ingresa tus credenciales para acceder a tu cuenta
+            </Text>
+          </View>
+
+          {/* Form */}
+          <View className="mb-6">
+            <Form {...form}>
+              <View className="gap-y-5">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-slate-700 font-medium">
+                        Correo electrónico
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          testID="email"
+                          placeholder="doctor@ejemplo.com"
+                          {...field}
+                          value={field.value}
+                          onChangeText={field.onChange}
+                          keyboardType="email-address"
+                          autoCapitalize="none"
+                          autoComplete="email"
+                          autoCorrect={false}
+                          className="bg-slate-50 border-slate-200"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-slate-700 font-medium">
+                        Contraseña
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          testID="password"
+                          placeholder="••••••••"
+                          {...field}
+                          value={field.value}
+                          onChangeText={field.onChange}
+                          keyboardType="default"
+                          autoCapitalize="none"
+                          autoComplete="password"
+                          autoCorrect={false}
+                          secureTextEntry
+                          className="bg-slate-50 border-slate-200"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </View>
+            </Form>
+
+            <TouchableOpacity className="mt-4">
+              <Text className="text-indigo-600 font-medium text-sm text-right">
+                ¿Olvidaste tu contraseña?
               </Text>
             </TouchableOpacity>
           </View>
-          <View className="flex-col">
-            <Text className="text-4xl font-extrabold text-gray-900">
-              Inicia sesión
-            </Text>
-            <Text className="mt-2 text-base text-gray-500">
-              Accede a tu cuenta para continuar
-            </Text>
-          </View>
-        </View>
 
-        <View className="flex-col gap-5">
-          <Form {...form}>
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Correo electrónico</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ingresa tu correo electrónico"
-                      {...field}
-                      value={field.value}
-                      onChangeText={field.onChange}
-                      keyboardType="email-address"
-                      autoCapitalize="none"
-                      autoComplete="email"
-                      autoCorrect={false}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contraseña</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ingresa tu contraseña"
-                      {...field}
-                      value={field.value}
-                      onChangeText={field.onChange}
-                      keyboardType="default"
-                      autoCapitalize="none"
-                      autoComplete="password"
-                      autoCorrect={false}
-                      secureTextEntry
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </Form>
-
-          <TouchableOpacity>
-            <Text className="mt-1 text-sm font-semibold text-blue-600">
-              ¿Olvidaste tu contraseña?
-            </Text>
+          {/* Sign In Button */}
+          <TouchableOpacity
+            className="bg-indigo-600 py-4 rounded-xl shadow-sm"
+            activeOpacity={0.8}
+            onPress={form.handleSubmit(onSubmit)}
+            disabled={form.formState.isSubmitting}
+          >
+            <View className="flex-row items-center justify-center">
+              <Text className="text-center text-white font-semibold text-base">
+                {form.formState.isSubmitting
+                  ? 'Iniciando sesión...'
+                  : 'Iniciar sesión'}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          className="mt-10 rounded-2xl bg-blue-600 py-4"
-          activeOpacity={0.9}
-          onPress={form.handleSubmit(onSubmit)}
-        >
-          <Text className="text-center text-lg font-semibold text-white">
-            {form.formState.isSubmitting
-              ? 'Iniciando sesión...'
-              : 'Iniciar sesión'}
-          </Text>
-        </TouchableOpacity>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }

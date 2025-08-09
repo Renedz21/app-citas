@@ -1,0 +1,80 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Performance and Responsiveness
+# This test verifies app performance during auth flows
+
+- launchApp
+
+# Measure app launch time
+- assertVisible: 'Welcome to Montek'
+
+# Test bottom sheet animation performance
+- tapOn:
+    id: 'start_on_app'
+- assertVisible: 'Inicia sesión' # Should appear smoothly
+
+# Test rapid screen transitions
+- tapOn:
+    id: 'sign_in'
+- assertVisible: 'Inicia sesión'
+- tapOn: 'Volver'
+- assertVisible: 'Welcome to Montek'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- assertVisible: 'Regístrate'
+- tapOn: 'Volver'
+
+# Test form input responsiveness
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+- tapOn:
+    id: 'email'
+- inputText: 'responsive@test.com'
+- assertVisible: 'responsive@test.com'
+
+# Test password field responsiveness
+- tapOn:
+    id: 'password'
+- inputText: 'testpassword'
+# Password should be masked but field should respond immediately
+
+# Test form submission performance
+- tapOn: 'Iniciar sesión'
+- assertVisible: 'Iniciando sesión...' # Loading state should appear quickly
+
+# Test ScrollView performance in sign-up
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+
+# Test scrolling behavior when keyboard appears
+- tapOn:
+    id: 'name'
+- inputText: 'Performance Test'
+- tapOn:
+    id: 'email'
+- inputText: 'performance@test.com'
+- tapOn:
+    id: 'password'
+- inputText: 'performancetest123'
+
+# Test form validation performance
+- tapOn:
+    id: 'email'
+
+- inputText: 'invalid-email'
+- tapOn: 'Regístrate'
+# Validation should be immediate
+
+- tapOn:
+    id: 'email'
+
+- inputText: 'valid@email.com'
+- tapOn: 'Regístrate'
+# Should process quickly

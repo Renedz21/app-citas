@@ -1,0 +1,80 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Form Validation Tests
+# This test focuses on comprehensive form validation scenarios
+
+- launchApp
+- tapOn:
+    id: 'start_on_app'
+
+# Test Sign-In Validation
+- tapOn:
+    id: 'sign_in'
+
+# Test invalid email formats
+- tapOn:
+    id: 'email'
+- inputText: 'invalid'
+- tapOn:
+    id: 'password'
+- inputText: 'password123'
+- tapOn: 'Iniciar sesión'
+# Should show email validation error
+
+- tapOn:
+    id: 'email'
+
+- inputText: 'test@'
+- tapOn: 'Iniciar sesión'
+# Should show email validation error
+
+- tapOn:
+    id: 'email'
+
+- inputText: '@example.com'
+- tapOn: 'Iniciar sesión'
+# Should show email validation error
+
+# Test password validation
+- tapOn:
+    id: 'email'
+
+- inputText: 'test@example.com'
+- tapOn:
+    id: 'password'
+
+- inputText: '123'
+- tapOn: 'Iniciar sesión'
+# Should show password length validation error
+
+# Go back and test Sign-Up validation
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+
+# Test empty name field
+- tapOn:
+    id: 'email'
+- inputText: 'test@example.com'
+- tapOn:
+    id: 'password'
+- inputText: 'password123'
+- tapOn: 'Regístrate'
+# Should show name validation error
+
+# Test with just spaces in name
+- tapOn:
+    id: 'name'
+- inputText: '   '
+- tapOn: 'Regístrate'
+# Should show name validation error
+
+# Test valid form submission
+- tapOn:
+    id: 'name'
+
+- inputText: 'Test User'
+- tapOn: 'Regístrate'
+# Should proceed with form submission

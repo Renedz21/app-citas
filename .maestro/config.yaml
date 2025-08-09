@@ -1,0 +1,27 @@
+# Maestro Configuration for Auth Testing
+# This file contains configuration settings for running auth tests
+
+# App configuration
+appId: com.edzon2121.appcitas
+
+# Test execution settings
+includeTags: []
+excludeTags: []
+
+# Device settings (adjust based on your target devices)
+# iOS simulator or Android emulator settings can be specified here
+
+# Test reporting
+outputFormat: junit # Options: junit, json, console
+
+# Retry configuration
+maxRetries: 2
+retryDelay: 1000 # milliseconds
+
+# Screenshot settings
+takeScreenshotOnFailure: true
+screenshotDirectory: '.maestro/screenshots'
+
+# Video recording (optional)
+recordVideo: false
+videoDirectory: '.maestro/videos'

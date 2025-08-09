@@ -1,0 +1,41 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Sign In Flow
+# This test covers the complete sign-in form functionality
+
+- launchApp
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+
+# Verify sign-in screen elements
+- assertVisible: 'Inicia sesión'
+- assertVisible: 'Accede a tu cuenta para continuar'
+- assertVisible: 'Correo electrónico'
+- assertVisible: 'Contraseña'
+- assertVisible: '¿Olvidaste tu contraseña?'
+
+# Test form validation with empty fields
+- tapOn: 'Iniciar sesión'
+# Note: Form validation messages should appear here
+
+# Test with valid email format but empty password
+- tapOn:
+    id: 'email'
+- inputText: 'test@example.com'
+- tapOn: 'Iniciar sesión'
+# Password validation should trigger
+
+# Test with complete valid form
+- tapOn:
+    id: 'password'
+- inputText: 'password123'
+- tapOn: 'Iniciar sesión'
+
+# Verify loading state
+- assertVisible: 'Iniciando sesión...'
+
+# Test back navigation
+- tapOn: 'Volver'
+- assertVisible: 'Welcome to Montek'

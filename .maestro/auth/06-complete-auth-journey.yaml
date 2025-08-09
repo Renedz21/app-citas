@@ -1,0 +1,76 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Complete Authentication Journey
+# This test covers a realistic user journey from landing to sign-up to sign-in
+
+- launchApp
+
+# Step 1: User lands on the app and explores the landing screen
+- assertVisible: 'Welcome to Montek'
+- assertVisible: 'Better Homes, Smarter, For Your Finance.'
+- tapOn:
+    id: 'start_on_app'
+
+# Step 2: User sees auth options and decides to register
+- assertVisible: 'Inicia sesión'
+- assertVisible: 'Regístrate con tu correo'
+- tapOn:
+    id: 'sign_up'
+
+# Step 3: User completes sign-up form
+- assertVisible: 'Regístrate'
+- tapOn:
+    id: 'name'
+- inputText: 'María García'
+- tapOn:
+    id: 'email'
+- inputText: 'maria.garcia@example.com'
+- tapOn:
+    id: 'password'
+- inputText: 'securepassword123'
+- tapOn: 'Regístrate'
+
+# Verify loading state during sign-up
+- assertVisible: 'Creando cuenta...'
+
+# Step 4: After sign-up, user goes back to try sign-in
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+
+# Step 5: User signs in with the same credentials
+- tapOn:
+    id: 'email'
+- inputText: 'maria.garcia@example.com'
+- tapOn:
+    id: 'password'
+- inputText: 'securepassword123'
+- tapOn: 'Iniciar sesión'
+
+# Verify loading state during sign-in
+- assertVisible: 'Iniciando sesión...'
+
+# Step 6: Test forgot password link
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+- tapOn: '¿Olvidaste tu contraseña?'
+# Note: This should navigate to password recovery flow when implemented
+
+# Step 7: Test complete flow with navigation between screens
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+- tapOn: 'Volver'
+- assertVisible: 'Welcome to Montek'

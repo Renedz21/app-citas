@@ -1,0 +1,34 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Auth Landing Screen Flow
+# This test verifies the main auth landing screen with bottom sheet functionality
+
+- launchApp
+- assertVisible: 'Welcome to Montek'
+- assertVisible: 'Better Homes, Smarter, For Your Finance.'
+
+# Test the main CTA button to open bottom sheet
+- tapOn:
+    id: 'start_on_app'
+- assertVisible: 'Inicia sesión'
+- assertVisible: 'Regístrate con tu correo'
+- assertVisible: 'Ó'
+
+# Test social buttons are visible
+- assertVisible: 'Continuar con Apple'
+- assertVisible: 'Continuar con Google'
+
+# Test navigation to sign-in
+- tapOn:
+    id: 'sign_in'
+- assertVisible: 'Inicia sesión'
+- assertVisible: 'Accede a tu cuenta para continuar'
+
+# Go back to test sign-up navigation
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- assertVisible: 'Regístrate'
+- assertVisible: 'Crea una cuenta para continuar'

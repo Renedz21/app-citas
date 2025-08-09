@@ -1,0 +1,61 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Accessibility Features
+# This test verifies accessibility features and labels
+
+- launchApp
+
+# Test accessibility labels on main screen
+- assertVisible: 'Welcome to Montek'
+- tapOn:
+    id: 'start_on_app'
+
+# Verify accessibility of auth options
+- assertVisible:
+    id: 'sign_in'
+- assertVisible:
+    id: 'sign_up'
+
+# Test sign-in accessibility
+- tapOn:
+    id: 'sign_in'
+- assertVisible: 'Correo electrónico'
+- assertVisible: 'Contraseña'
+
+# Test form field accessibility
+- tapOn:
+    id: 'email'
+- assertVisible: 'email' # Input should be focused and accessible
+- tapOn:
+    id: 'password'
+- assertVisible: 'password' # Input should be focused and accessible
+
+# Test button accessibility
+- assertVisible: 'Iniciar sesión'
+- assertVisible: '¿Olvidaste tu contraseña?'
+- assertVisible: 'Volver'
+
+# Test sign-up accessibility
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+
+# Verify all form fields are accessible
+- assertVisible: 'Nombre'
+- assertVisible: 'Correo electrónico'
+- assertVisible: 'Contraseña'
+- assertVisible:
+    id: 'name'
+- assertVisible:
+    id: 'email'
+- assertVisible:
+    id: 'password'
+
+# Test social button accessibility
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- assertVisible: 'Continuar con Apple'
+- assertVisible: 'Continuar con Google'

@@ -1,0 +1,16 @@
+appId: com.edzon2121.appcitas
+---
+# Auth Test Suite - Master Test File
+# This file orchestrates all authentication-related tests
+
+# Run all auth tests in sequence
+- runFlow: auth/01-auth-landing.yaml
+- runFlow: auth/02-sign-in-flow.yaml
+- runFlow: auth/03-sign-up-flow.yaml
+- runFlow: auth/04-form-validation.yaml
+- runFlow: auth/05-social-auth.yaml
+- runFlow: auth/06-complete-auth-journey.yaml
+- runFlow: auth/07-keyboard-interaction.yaml
+- runFlow: auth/08-accessibility.yaml
+- runFlow: auth/09-edge-cases.yaml
+- runFlow: auth/10-performance.yaml

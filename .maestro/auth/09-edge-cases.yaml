@@ -1,0 +1,84 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Edge Cases and Error Scenarios
+# This test covers various edge cases and error conditions
+
+- launchApp
+- tapOn:
+    id: 'start_on_app'
+
+# Test bottom sheet dismissal by tapping outside
+- tapOn:
+    point: 200, 200 # Tap on background
+- assertVisible: 'Welcome to Montek'
+
+# Test reopening bottom sheet multiple times
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    point: 200, 200 # Dismiss
+- tapOn:
+    id: 'start_on_app'
+- assertVisible: 'Inicia sesión'
+
+# Test rapid navigation between screens
+- tapOn:
+    id: 'sign_in'
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+
+# Test form with special characters
+- tapOn:
+    id: 'email'
+- inputText: 'test+tag@example-domain.com'
+- tapOn:
+    id: 'password'
+- inputText: 'P@ssw0rd!123'
+- tapOn: 'Iniciar sesión'
+
+# Test very long inputs
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- tapOn:
+    id: 'name'
+- inputText: 'This is a very long name that exceeds normal limits to test input handling and UI behavior with extended text content'
+- tapOn:
+    id: 'email'
+- inputText: 'verylongemailaddressthatmightcauseissues@verylongdomainnamethatexceedsnormallimits.com'
+- tapOn:
+    id: 'password'
+- inputText: 'VeryLongPasswordThatExceedsNormalLimitsAndContainsSpecialCharacters!@#$%^&*()1234567890'
+
+# Test form behavior after long input
+- tapOn: 'Regístrate'
+
+# Test multiple rapid taps on submit button
+- tapOn: 'Volver'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+- tapOn:
+    id: 'email'
+- inputText: 'test@example.com'
+- tapOn:
+    id: 'password'
+- inputText: 'password123'
+- tapOn: 'Iniciar sesión'
+- tapOn: 'Iniciar sesión' # Rapid second tap
+- tapOn: 'Iniciar sesión' # Rapid third tap
+
+# Test navigation during loading state
+- assertVisible: 'Iniciando sesión...'
+# Note: In a real scenario, you might want to test if navigation is blocked during loading
