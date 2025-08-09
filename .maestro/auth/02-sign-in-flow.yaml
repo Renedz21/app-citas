@@ -10,8 +10,10 @@ appId: com.edzon2121.appcitas
     id: 'sign_in'
 
 # Verify sign-in screen elements
-- assertVisible: 'Inicia sesión'
-- assertVisible: 'Accede a tu cuenta para continuar'
+- assertVisible: 'Iniciar Sesión'
+- assertVisible: 'Accede a tu cuenta profesional'
+- assertVisible: 'Bienvenido de vuelta'
+- assertVisible: 'Ingresa tus credenciales para acceder a tu cuenta'
 - assertVisible: 'Correo electrónico'
 - assertVisible: 'Contraseña'
 - assertVisible: '¿Olvidaste tu contraseña?'
@@ -37,5 +39,6 @@ appId: com.edzon2121.appcitas
 - assertVisible: 'Iniciando sesión...'
 
 # Test back navigation
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - assertVisible: 'Welcome to Montek'

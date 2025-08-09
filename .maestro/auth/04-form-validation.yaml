@@ -48,7 +48,8 @@ appId: com.edzon2121.appcitas
 # Should show password length validation error
 
 # Go back and test Sign-Up validation
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - tapOn:
     id: 'start_on_app'
 - tapOn:

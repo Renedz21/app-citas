@@ -28,7 +28,8 @@ appId: com.edzon2121.appcitas
     id: 'start_on_app'
 - tapOn:
     id: 'sign_in'
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - tapOn:
     id: 'start_on_app'
 

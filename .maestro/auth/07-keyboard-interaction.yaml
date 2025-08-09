@@ -25,7 +25,8 @@ appId: com.edzon2121.appcitas
 - assertVisible: 'Inicia sesión'
 
 # Test sign-up form keyboard navigation
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - tapOn:
     id: 'start_on_app'
 - tapOn:
@@ -45,7 +46,8 @@ appId: com.edzon2121.appcitas
 - assertVisible: 'Creando cuenta...'
 
 # Test keyboard behavior with ScrollView
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - tapOn:
     id: 'start_on_app'
 - tapOn:

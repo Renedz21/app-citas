@@ -4,7 +4,8 @@ import { useRouter } from 'expo-router';
 import { Appointment } from '@/types/dummy-data.type';
 
 export default function ScheduleCard(appointment: Appointment) {
-  const { time, duration, name, service, phone, notes, status } = appointment;
+  const { time, duration, name, service, phone, notes, status, id } =
+    appointment;
   const router = useRouter();
 
   const getStatusColor = (status: string) => {
@@ -21,9 +22,8 @@ export default function ScheduleCard(appointment: Appointment) {
   };
 
   const handlePress = () => {
-    // For now, we'll navigate to a generic appointment details route
-    // This can be updated when the specific route structure is defined
-    router.push('/(tabs)/appointment-details' as any);
+    // Navigate to the appointment details route using the appointment's id
+    router.push(`/(tabs)/appointments/${id}`);
   };
 
   return (

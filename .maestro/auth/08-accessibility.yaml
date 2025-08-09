@@ -36,7 +36,8 @@ appId: com.edzon2121.appcitas
 - assertVisible: 'Volver'
 
 # Test sign-up accessibility
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - tapOn:
     id: 'start_on_app'
 - tapOn:
@@ -54,7 +55,8 @@ appId: com.edzon2121.appcitas
     id: 'password'
 
 # Test social button accessibility
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - tapOn:
     id: 'start_on_app'
 - assertVisible: 'Continuar con Apple'

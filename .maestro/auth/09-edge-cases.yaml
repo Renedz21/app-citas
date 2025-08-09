@@ -45,7 +45,8 @@ appId: com.edzon2121.appcitas
 - tapOn: 'Iniciar sesión'
 
 # Test very long inputs
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - tapOn:
     id: 'start_on_app'
 - tapOn:
@@ -64,7 +65,8 @@ appId: com.edzon2121.appcitas
 - tapOn: 'Regístrate'
 
 # Test multiple rapid taps on submit button
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - tapOn:
     id: 'start_on_app'
 - tapOn:

@@ -16,15 +16,17 @@ appId: com.edzon2121.appcitas
 # Test rapid screen transitions
 - tapOn:
     id: 'sign_in'
-- assertVisible: 'Inicia sesión'
-- tapOn: 'Volver'
+- assertVisible: 'Iniciar Sesión'
+- tapOn:
+    id: 'back_button'
 - assertVisible: 'Welcome to Montek'
 - tapOn:
     id: 'start_on_app'
 - tapOn:
     id: 'sign_up'
-- assertVisible: 'Regístrate'
-- tapOn: 'Volver'
+- assertVisible: 'Crear Cuenta'
+- tapOn:
+    id: 'back_button'
 
 # Test form input responsiveness
 - tapOn:
@@ -47,11 +49,12 @@ appId: com.edzon2121.appcitas
 - assertVisible: 'Iniciando sesión...' # Loading state should appear quickly
 
 # Test ScrollView performance in sign-up
-- tapOn: 'Volver'
 - tapOn:
     id: 'start_on_app'
 - tapOn:
     id: 'sign_up'
+- tapOn:
+    id: 'back_button'
 
 # Test scrolling behavior when keyboard appears
 - tapOn:
@@ -66,15 +69,27 @@ appId: com.edzon2121.appcitas
 
 # Test form validation performance
 - tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- tapOn:
     id: 'email'
-
 - inputText: 'invalid-email'
-- tapOn: 'Regístrate'
+- tapOn:
+    id: 'password'
+- inputText: 'invalid-password'
+- tapOn: 'Crear cuenta'
 # Validation should be immediate
 
 - tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- tapOn:
     id: 'email'
-
 - inputText: 'valid@email.com'
-- tapOn: 'Regístrate'
+- tapOn:
+    id: 'password'
+- inputText: 'valid-password'
+- tapOn: 'Crear cuenta'
 # Should process quickly

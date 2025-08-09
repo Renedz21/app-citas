@@ -10,21 +10,23 @@ appId: com.edzon2121.appcitas
     id: 'sign_up'
 
 # Verify sign-up screen elements
-- assertVisible: 'Regístrate'
-- assertVisible: 'Crea una cuenta para continuar'
-- assertVisible: 'Nombre'
+- assertVisible: 'Crear Cuenta'
+- assertVisible: 'Registro de nuevo profesional'
+- assertVisible: 'Únete a nuestro equipo'
+- assertVisible: 'Completa el formulario para crear tu cuenta profesional'
+- assertVisible: 'Nombre completo'
 - assertVisible: 'Correo electrónico'
 - assertVisible: 'Contraseña'
 
 # Test form validation with empty fields
-- tapOn: 'Regístrate'
+- tapOn: 'Crear cuenta'
 # Form validation should prevent submission
 
 # Test with partial form completion
 - tapOn:
     id: 'name'
 - inputText: 'Juan Pérez'
-- tapOn: 'Regístrate'
+- tapOn: 'Crear cuenta'
 # Email and password validation should trigger
 
 # Test with invalid email format
@@ -34,23 +36,22 @@ appId: com.edzon2121.appcitas
 - tapOn:
     id: 'password'
 - inputText: '123'
-- tapOn: 'Regístrate'
+- tapOn: 'Crear cuenta'
 # Email format and password length validation should trigger
 
 # Test with complete valid form
 - tapOn:
     id: 'email'
-
 - inputText: 'juan.perez@example.com'
 - tapOn:
     id: 'password'
-
 - inputText: 'password123'
-- tapOn: 'Regístrate'
+- tapOn: 'Crear cuenta'
 
 # Verify loading state
 - assertVisible: 'Creando cuenta...'
 
 # Test back navigation
-- tapOn: 'Volver'
+- tapOn:
+    id: 'back_button'
 - assertVisible: 'Welcome to Montek'

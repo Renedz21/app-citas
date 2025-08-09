@@ -1,11 +1,6 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
-import { useLocalSearchParams } from 'expo-router';
-
 export default function AppointmentDetails() {
-  const { appointmentId } = useLocalSearchParams();
-  console.log(appointmentId);
-
   return (
     <ScrollView
       className="flex-1 bg-white px-6"
