@@ -16,7 +16,7 @@ const buttonVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 interface ButtonProps
@@ -45,7 +45,7 @@ export const Button = ({
               className={cn(
                 "text-xl font-semibold text-white",
                 variant === "default" ? "text-white" : "text-primary",
-                pressed && "opacity-50"
+                pressed && "opacity-50",
               )}
             >
               {title}

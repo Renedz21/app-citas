@@ -13,7 +13,7 @@ const Input = ({ className, keyboardType, ref, ...props }: InputProps) => {
       keyboardType={keyboardType}
       className={cn(
         "flex-row rounded-2xl border border-border bg-white p-4 text-base placeholder:text-foreground disabled:opacity-50",
-        className
+        className,
       )}
       {...props}
     />
