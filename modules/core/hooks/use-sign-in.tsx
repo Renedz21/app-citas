@@ -1,11 +1,11 @@
 import {
   loginSchema,
-  type LoginSchema,
-} from "@/modules/core/schemas/auth.schema";
+  type LoginSchema
+} from '@/modules/core/schemas/auth.schema';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type UseFormReturn } from "react-hook-form";
-import { useSignUp } from "@/modules/core/hooks/use-sign-up";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, type UseFormReturn } from 'react-hook-form';
+import { useSignUp } from '@/modules/core/hooks/use-sign-up';
 
 export type AuthHookReturn = {
   form: UseFormReturn<any>;
@@ -16,9 +16,9 @@ export function useSignIn() {
   const form = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
-    },
+      email: '',
+      password: ''
+    }
   });
 
   const onSubmit = (data: LoginSchema) => {
@@ -29,7 +29,7 @@ export function useSignIn() {
 
 // Test suite expects a unified hook exported from this module.
 // Provide a thin wrapper that delegates to the correct hook.
-export function useAuth(type: "login" | "signup"): AuthHookReturn {
-  const hook = type === "login" ? useSignIn() : useSignUp();
+export function useAuth(type: 'login' | 'signup'): AuthHookReturn {
+  const hook = type === 'login' ? useSignIn() : useSignUp();
   return hook as unknown as AuthHookReturn;
 }
