@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
-import { useAuth } from "@/modules/core/hooks/use-auth";
+import { useSignIn } from "@/modules/core/hooks/use-sign-in";
 import {
   Form,
   FormControl,
@@ -14,7 +14,7 @@ import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LoginScreen() {
-  const { form, onSubmit } = useAuth("login");
+  const { form, onSubmit } = useSignIn();
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 px-6">

@@ -6,13 +6,7 @@ export const loginSchema = z.object({
 });
 
 export const signupSchema = z.object({
-  name: z
-    .string({
-      error: "El nombre es requerido.",
-    })
-    .min(1, {
-      error: "El nombre es requerido.",
-    }),
+  name: z.string("El nombre es requerido.").min(1, "El nombre es requerido."),
   email: z.email("El email no es válido"),
   password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
 });

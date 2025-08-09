@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
-import { useAuth } from "@/modules/core/hooks/use-auth";
+import { useSignUp } from "@/modules/core/hooks/use-sign-up";
 import {
   Form,
   FormControl,
@@ -14,7 +14,7 @@ import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignUpScreen() {
-  const { form, onSubmit } = useAuth("signup");
+  const { form, onSubmit } = useSignUp();
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 px-6">
