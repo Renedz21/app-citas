@@ -1,0 +1,57 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Sign Up Flow
+# This test covers the complete sign-up form functionality
+
+- launchApp
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+
+# Verify sign-up screen elements
+- assertVisible: 'Crear Cuenta'
+- assertVisible: 'Registro de nuevo profesional'
+- assertVisible: 'Únete a nuestro equipo'
+- assertVisible: 'Completa el formulario para crear tu cuenta profesional'
+- assertVisible: 'Nombre completo'
+- assertVisible: 'Correo electrónico'
+- assertVisible: 'Contraseña'
+
+# Test form validation with empty fields
+- tapOn: 'Crear cuenta'
+# Form validation should prevent submission
+
+# Test with partial form completion
+- tapOn:
+    id: 'name'
+- inputText: 'Juan Pérez'
+- tapOn: 'Crear cuenta'
+# Email and password validation should trigger
+
+# Test with invalid email format
+- tapOn:
+    id: 'email'
+- inputText: 'invalid-email'
+- tapOn:
+    id: 'password'
+- inputText: '123'
+- tapOn: 'Crear cuenta'
+# Email format and password length validation should trigger
+
+# Test with complete valid form
+- tapOn:
+    id: 'email'
+- inputText: 'juan.perez@example.com'
+- tapOn:
+    id: 'password'
+- inputText: 'password123'
+- tapOn: 'Crear cuenta'
+
+# Verify loading state
+- assertVisible: 'Creando cuenta...'
+
+# Test back navigation
+- tapOn:
+    id: 'back_button'
+- assertVisible: 'Welcome to Montek'

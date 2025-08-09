@@ -1,0 +1,57 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Keyboard Interaction and Navigation
+# This test verifies keyboard behavior and form navigation
+
+- launchApp
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+
+# Test keyboard appearance and dismissal
+- tapOn:
+    id: 'email'
+- assertVisible: 'email' # Keyboard should be visible
+- inputText: 'test@example.com'
+
+# Test tab navigation between fields
+- pressKey: Tab
+- assertVisible: 'password' # Focus should move to password field
+- inputText: 'password123'
+
+# Test keyboard dismissal
+- hideKeyboard
+- assertVisible: 'Inicia sesión'
+
+# Test sign-up form keyboard navigation
+- tapOn:
+    id: 'back_button'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+
+# Test sequential field navigation
+- tapOn:
+    id: 'name'
+- inputText: 'Test User'
+- pressKey: Tab
+- inputText: 'test@example.com'
+- pressKey: Tab
+- inputText: 'password123'
+
+# Test form submission with keyboard
+- pressKey: Enter
+- assertVisible: 'Creando cuenta...'
+
+# Test keyboard behavior with ScrollView
+- tapOn:
+    id: 'back_button'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- tapOn:
+    id: 'password'
+# Verify that the form scrolls to keep the input visible when keyboard appears

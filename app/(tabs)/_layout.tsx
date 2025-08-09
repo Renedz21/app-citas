@@ -24,6 +24,22 @@ export default function TabLayout() {
           )
         }}
       />
+      <Tabs.Screen
+        name="appointments/index"
+        options={{
+          title: 'Citas',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="calendar-outline" color={color} />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="appointments/[appointmentId]/index"
+        options={{
+          title: 'Cita',
+          href: null
+        }}
+      />
     </Tabs>
   );
 }
