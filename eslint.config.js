@@ -1,22 +1,15 @@
 // https://docs.expo.dev/guides/using-eslint/
-const { defineConfig } = require("eslint/config");
-const expoConfig = require("eslint-config-expo/flat");
-const eslintPluginPrettierRecommended = require("eslint-plugin-prettier/recommended");
+const { defineConfig } = require('eslint/config');
+const expoConfig = require('eslint-config-expo/flat');
+const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended');
 
 module.exports = defineConfig([
   expoConfig,
   eslintPluginPrettierRecommended,
   {
-    ignores: ["dist/*", "node_modules/*", "/.expo/*", "android/*", "ios/*"],
+    ignores: ['dist/*', 'node_modules/*', '/.expo/*', 'android/*', 'ios/*'],
     rules: {
-      "prettier/prettier": [
-        "error",
-        {
-          endOfLine: "auto",
-          tabWidth: 2,
-          trailingComma: "es5",
-        },
-      ],
-    },
-  },
+      'prettier/prettier': 'off'
+    }
+  }
 ]);

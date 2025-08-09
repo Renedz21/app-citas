@@ -1,25 +1,25 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
-import { useAuth } from "@/modules/core/hooks/use-auth";
+import { View, Text, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import { useSignIn } from '@/modules/core/hooks/use-sign-in';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/modules/core/components/ui/form";
-import { Input } from "@/modules/core/components/ui/input";
-import { router } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+  FormMessage
+} from '@/modules/core/components/ui/form';
+import { Input } from '@/modules/core/components/ui/input';
+import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LoginScreen() {
-  const { form, onSubmit } = useAuth("login");
+  const { form, onSubmit } = useSignIn();
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 px-6">
       <KeyboardAvoidingView
-        behavior={"padding"}
+        behavior={'padding'}
         className="flex-1 justify-center"
       >
         <View className="mb-12 flex-col gap-4">
@@ -103,8 +103,8 @@ export default function LoginScreen() {
         >
           <Text className="text-center text-lg font-semibold text-white">
             {form.formState.isSubmitting
-              ? "Iniciando sesión..."
-              : "Iniciar sesión"}
+              ? 'Iniciando sesión...'
+              : 'Iniciar sesión'}
           </Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>

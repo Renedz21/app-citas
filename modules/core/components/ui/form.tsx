@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 import {
   Controller,
   FormProvider,
   useFormContext,
   type ControllerProps,
   type FieldPath,
-  type FieldValues,
-} from "react-hook-form";
-import { Text, View, type TextProps, type ViewProps } from "react-native";
+  type FieldValues
+} from 'react-hook-form';
+import { Text, View, type TextProps, type ViewProps } from 'react-native';
 
-import { cn } from "@/lib/utils";
-import { Label } from "@/modules/core/components/ui/label";
+import { cn } from '@/lib/utils';
+import { Label } from '@/modules/core/components/ui/label';
 
 type FormItemProps = ViewProps & {};
 
@@ -26,7 +26,7 @@ const Form = FormProvider;
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = {
   name: TName;
 };
@@ -41,7 +41,7 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   ...props
 }: ControllerProps<TFieldValues, TName>) => {
@@ -60,7 +60,7 @@ const useFormField = () => {
   const fieldState = getFieldState(fieldContext.name, formState);
 
   if (!fieldContext) {
-    throw new Error("useFormField should be used within <FormField>");
+    throw new Error('useFormField should be used within <FormField>');
   }
 
   const { id } = itemContext;
@@ -71,7 +71,7 @@ const useFormField = () => {
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
     formMessageId: `${id}-form-item-message`,
-    ...fieldState,
+    ...fieldState
   };
 };
 
@@ -85,7 +85,7 @@ const FormItem = ({ className, ...props }: FormItemProps) => {
     <FormItemContext.Provider value={{ id }}>
       <View
         data-slot="form-item"
-        className={cn("gap-y-2", className)}
+        className={cn('gap-y-2', className)}
         {...props}
       />
     </FormItemContext.Provider>
@@ -99,7 +99,7 @@ const FormLabel = ({ className, children, ...props }: FormLabelProps) => {
       id={formItemId}
       data-slot="form-label"
       data-error={!!error}
-      className={cn("data-[error=true]:text-destructive", className)}
+      className={cn('data-[error=true]:text-destructive', className)}
       {...props}
     >
       {children}
@@ -115,7 +115,7 @@ const FormControl = ({ className, ...props }: FormControlProps) => {
     <View
       id={formItemId}
       data-slot="form-control"
-      className={cn("gap-y-2", className)}
+      className={cn('gap-y-2', className)}
       aria-describedby={
         !error
           ? `${formDescriptionId}`
@@ -138,7 +138,7 @@ const FormDescription = ({
     <Text
       id={formDescriptionId}
       data-slot="form-description"
-      className={cn("text-sm text-foreground", className)}
+      className={cn('text-sm text-foreground', className)}
       {...props}
     >
       {children}
@@ -148,7 +148,7 @@ const FormDescription = ({
 
 const FormMessage = ({ className, children, ...props }: FormMessageProps) => {
   const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message ?? "") : children;
+  const body = error ? String(error?.message ?? '') : children;
 
   if (!body) {
     return null;
@@ -157,7 +157,7 @@ const FormMessage = ({ className, children, ...props }: FormMessageProps) => {
     <Text
       id={formMessageId}
       data-slot="form-message"
-      className={cn("text-sm text-destructive", className)}
+      className={cn('text-sm text-destructive', className)}
       {...props}
     >
       {body}
@@ -173,5 +173,5 @@ export {
   FormItem,
   FormLabel,
   FormMessage,
-  useFormField,
+  useFormField
 };

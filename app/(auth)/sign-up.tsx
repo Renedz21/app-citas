@@ -1,31 +1,31 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import { KeyboardAvoidingView } from "react-native-keyboard-controller";
-import { useAuth } from "@/modules/core/hooks/use-auth";
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
+import { useSignUp } from '@/modules/core/hooks/use-sign-up';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/modules/core/components/ui/form";
-import { Input } from "@/modules/core/components/ui/input";
-import { router } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+  FormMessage
+} from '@/modules/core/components/ui/form';
+import { Input } from '@/modules/core/components/ui/input';
+import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignUpScreen() {
-  const { form, onSubmit } = useAuth("signup");
+  const { form, onSubmit } = useSignUp();
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50 px-6">
       <KeyboardAvoidingView
-        behavior={"padding"}
+        behavior={'padding'}
         className="flex-1"
         keyboardVerticalOffset={85}
       >
         <ScrollView
           className="flex-1"
-          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -131,7 +131,7 @@ export default function SignUpScreen() {
             onPress={form.handleSubmit(onSubmit)}
           >
             <Text className="text-center text-lg font-semibold text-white">
-              {form.formState.isSubmitting ? "Creando cuenta..." : "Regístrate"}
+              {form.formState.isSubmitting ? 'Creando cuenta...' : 'Regístrate'}
             </Text>
           </TouchableOpacity>
         </ScrollView>

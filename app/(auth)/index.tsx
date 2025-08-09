@@ -1,21 +1,21 @@
-import { useCallback, useMemo, useRef } from "react";
-import { ImageBackground, Platform, Text, View } from "react-native";
+import { useCallback, useMemo, useRef } from 'react';
+import { ImageBackground, Platform, Text, View } from 'react-native';
 
-import { useRouter } from "expo-router";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { Separator } from "@/modules/core/components/ui/separator";
-import { SocialButtons } from "@/modules/core/components/shared/social-buttons";
-import { Button } from "@/modules/core/components/ui/button";
+import { useRouter } from 'expo-router';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { Separator } from '@/modules/core/components/ui/separator';
+import { SocialButtons } from '@/modules/core/components/shared/social-buttons';
+import { Button } from '@/modules/core/components/ui/button';
 
 function AuthSheetContent() {
   const router = useRouter();
 
   const handleSignIn = useCallback(() => {
-    router.push("/sign-in");
+    router.push('/sign-in');
   }, [router]);
 
   const handleSignUp = useCallback(() => {
-    router.push("/sign-up");
+    router.push('/sign-up');
   }, [router]);
 
   return (
@@ -40,18 +40,18 @@ function AuthSheetContent() {
 export default function Index() {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const snapPoints = useMemo(() => ["40%"], []);
+  const snapPoints = useMemo(() => ['40%'], []);
 
   const openSheet = useCallback(() => {
     bottomSheetRef.current?.expand({
-      duration: 300,
+      duration: 300
     });
   }, []);
 
   return (
     <View className="flex-1 bg-neutral-900">
       <ImageBackground
-        source={require("../../assets/images/splash-icon.png")}
+        source={require('../../assets/images/splash-icon.png')}
         resizeMode="cover"
         className="flex-1"
       >
@@ -62,12 +62,12 @@ export default function Index() {
           <View>
             <Text className="mb-6 text-4xl font-extrabold leading-[42px] text-white">
               Better Homes,
-              {"\n"}Smarter, For
-              {"\n"}Your Finance.
+              {'\n'}Smarter, For
+              {'\n'}Your Finance.
             </Text>
             <Button
               accessibilityLabel="Iniciemos"
-              variant={"secondary"}
+              variant={'secondary'}
               title="Iniciemos"
               onPress={openSheet}
             />
@@ -80,13 +80,13 @@ export default function Index() {
         index={-1}
         snapPoints={snapPoints}
         enablePanDownToClose
-        android_keyboardInputMode={Platform.select({ android: "adjustResize" })}
+        android_keyboardInputMode={Platform.select({ android: 'adjustResize' })}
         keyboardBehavior={Platform.select({
-          ios: "interactive",
-          android: "extend",
+          ios: 'interactive',
+          android: 'extend'
         })}
-        backgroundStyle={{ backgroundColor: "#ffffff" }}
-        handleIndicatorStyle={{ backgroundColor: "#e5e7eb" }}
+        backgroundStyle={{ backgroundColor: '#ffffff' }}
+        handleIndicatorStyle={{ backgroundColor: '#e5e7eb' }}
       >
         <BottomSheetView>
           <AuthSheetContent />
