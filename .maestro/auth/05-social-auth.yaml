@@ -1,0 +1,43 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Social Authentication Buttons
+# This test verifies social login button functionality
+
+- launchApp
+- tapOn:
+    id: 'start_on_app'
+
+# Verify social buttons are present and visible
+- assertVisible: 'Continuar con Apple'
+- assertVisible: 'Continuar con Google'
+
+# Test Apple authentication button
+- tapOn: 'Continuar con Apple'
+# Note: This would typically open Apple's authentication flow
+# In a real test environment, you might need to mock this or handle the external flow
+
+# Navigate back to test Google authentication
+- tapOn:
+    id: 'start_on_app'
+- tapOn: 'Continuar con Google'
+# Note: This would typically open Google's authentication flow
+# In a real test environment, you might need to mock this or handle the external flow
+
+# Test that social buttons are also accessible from individual auth screens
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+- tapOn:
+    id: 'back_button'
+- tapOn:
+    id: 'start_on_app'
+
+# Verify buttons are still functional after navigation
+- assertVisible: 'Continuar con Apple'
+- assertVisible: 'Continuar con Google'
+
+# Test tapping outside bottom sheet to dismiss
+- tapOn:
+    point: 200, 200 # Tap on background area
+- assertVisible: 'Welcome to Montek'

@@ -15,7 +15,7 @@ import '../global.css';
 export { ErrorBoundary };
 
 function InitialLayout() {
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   return (
     <SafeAreaView className="flex-1" edges={['top']}>

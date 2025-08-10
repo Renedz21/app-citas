@@ -24,6 +24,47 @@ export default function TabLayout() {
           )
         }}
       />
+      <Tabs.Screen
+        name="appointments/index"
+        options={{
+          title: 'Citas',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="calendar-outline" color={color} />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="appointments/[appointmentId]/index"
+        options={{
+          title: 'Cita',
+          href: null
+        }}
+      />
+      <Tabs.Screen
+        name="clients/index"
+        options={{
+          title: 'Clientes',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="people-outline" color={color} />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="clients/[clientId]"
+        options={{
+          title: 'Cliente',
+          href: null
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Configuración',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="settings-outline" color={color} />
+          )
+        }}
+      />
     </Tabs>
   );
 }

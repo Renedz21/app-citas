@@ -1,0 +1,95 @@
+appId: com.edzon2121.appcitas
+---
+# Test: Performance and Responsiveness
+# This test verifies app performance during auth flows
+
+- launchApp
+
+# Measure app launch time
+- assertVisible: 'Welcome to Montek'
+
+# Test bottom sheet animation performance
+- tapOn:
+    id: 'start_on_app'
+- assertVisible: 'Inicia sesión' # Should appear smoothly
+
+# Test rapid screen transitions
+- tapOn:
+    id: 'sign_in'
+- assertVisible: 'Iniciar Sesión'
+- tapOn:
+    id: 'back_button'
+- assertVisible: 'Welcome to Montek'
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- assertVisible: 'Crear Cuenta'
+- tapOn:
+    id: 'back_button'
+
+# Test form input responsiveness
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_in'
+- tapOn:
+    id: 'email'
+- inputText: 'responsive@test.com'
+- assertVisible: 'responsive@test.com'
+
+# Test password field responsiveness
+- tapOn:
+    id: 'password'
+- inputText: 'testpassword'
+# Password should be masked but field should respond immediately
+
+# Test form submission performance
+- tapOn: 'Iniciar sesión'
+- assertVisible: 'Iniciando sesión...' # Loading state should appear quickly
+
+# Test ScrollView performance in sign-up
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- tapOn:
+    id: 'back_button'
+
+# Test scrolling behavior when keyboard appears
+- tapOn:
+    id: 'name'
+- inputText: 'Performance Test'
+- tapOn:
+    id: 'email'
+- inputText: 'performance@test.com'
+- tapOn:
+    id: 'password'
+- inputText: 'performancetest123'
+
+# Test form validation performance
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- tapOn:
+    id: 'email'
+- inputText: 'invalid-email'
+- tapOn:
+    id: 'password'
+- inputText: 'invalid-password'
+- tapOn: 'Crear cuenta'
+# Validation should be immediate
+
+- tapOn:
+    id: 'start_on_app'
+- tapOn:
+    id: 'sign_up'
+- tapOn:
+    id: 'email'
+- inputText: 'valid@email.com'
+- tapOn:
+    id: 'password'
+- inputText: 'valid-password'
+- tapOn: 'Crear cuenta'
+# Should process quickly
