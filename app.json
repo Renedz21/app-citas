@@ -15,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.edzon2121.appcitas"
+      "bundleIdentifier": "com.swiftlyappworks.appcitas"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +23,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.edzon2121.appcitas"
+      "package": "com.swiftlyappworks.appcitas"
     },
     "web": {
       "bundler": "metro",
@@ -46,6 +46,19 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c61659da-e265-46af-a3ff-933da89fd34a"
+      }
+    },
+    "owner": "edzon2121",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/c61659da-e265-46af-a3ff-933da89fd34a"
     }
   }
 }
