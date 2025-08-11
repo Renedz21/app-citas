@@ -2,9 +2,6 @@
 // Modern versions include matchers by default
 
 // Mock AsyncStorage
-jest.mock('@react-native-async-storage/async-storage', () =>
-  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
-);
 
 // Mock react-native modules (commented out as it's handled by jest-expo)
 // jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');

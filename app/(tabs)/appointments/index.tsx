@@ -2,34 +2,74 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
   TextInput,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import { appointments } from '@/constants/dummy-data';
-import { Appointment } from '@/types/dummy-data.type';
+import { AppointmentWithDetails } from '@/types';
 import ScheduleCard from '@/modules/core/components/shared/schedule-card';
+import { useGetAppointments } from '@/modules/core/hooks/appointments/use-appointments';
+import { FlashList } from '@shopify/flash-list';
 
-const filters = [
-  {
-    label: 'Todas',
-    count: appointments.length,
-    color: 'bg-slate-100 text-slate-700'
-  },
-  { label: 'Confirmadas', count: 3, color: 'bg-green-100 text-green-700' },
-  { label: 'Pendientes', count: 2, color: 'bg-amber-100 text-amber-700' },
-  { label: 'Canceladas', count: 1, color: 'bg-red-100 text-red-700' }
-];
-
-const renderItem = ({ item }: { item: Appointment }) => (
+const renderItem = ({ item }: { item: AppointmentWithDetails }) => (
   <ScheduleCard {...item} />
 );
 
 export default function Appointments() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('Todas');
+
+  const {
+    data: appointments,
+    isLoading,
+    isError,
+    refetch,
+    isRefetching,
+    isFetching
+  } = useGetAppointments();
+
+  if (isLoading) {
+    return (
+      <View className="flex-1 bg-slate-50 justify-center items-center">
+        <ActivityIndicator size="large" color="#3B82F6" />
+      </View>
+    );
+  }
+
+  if (isError) {
+    return (
+      <View className="flex-1 bg-slate-50 justify-center items-center">
+        <Text className="text-red-600">Error al cargar citas</Text>
+      </View>
+    );
+  }
+
+  // Create dynamic filters based on actual data
+  const appointmentsList = appointments || [];
+  const filters = [
+    {
+      label: 'Todas',
+      count: appointmentsList.length,
+      color: 'bg-slate-100 text-slate-700'
+    },
+    {
+      label: 'Programadas',
+      count: appointmentsList.filter((a) => a.status === 'scheduled').length,
+      color: 'bg-blue-100 text-blue-700'
+    },
+    {
+      label: 'Completadas',
+      count: appointmentsList.filter((a) => a.status === 'completed').length,
+      color: 'bg-green-100 text-green-700'
+    },
+    {
+      label: 'Canceladas',
+      count: appointmentsList.filter((a) => a.status === 'cancelled').length,
+      color: 'bg-red-100 text-red-700'
+    }
+  ];
 
   return (
     <View className="flex-1 bg-slate-50">
@@ -94,7 +134,7 @@ export default function Appointments() {
         {/* Results Header */}
         <View className="flex-row items-center justify-between mb-4">
           <Text className="text-slate-600 text-sm">
-            {appointments.length} citas encontradas
+            {appointmentsList.length} citas encontradas
           </Text>
           <TouchableOpacity className="flex-row items-center">
             <Feather name="filter" size={16} color="#64748B" />
@@ -105,12 +145,28 @@ export default function Appointments() {
         </View>
 
         {/* Appointments List */}
-        <FlatList
-          data={appointments}
+        <FlashList
+          data={appointmentsList}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
+          estimatedItemSize={100}
           contentContainerStyle={{ paddingBottom: 100 }}
+          ListEmptyComponent={
+            <View className="flex-1 justify-center items-center py-20">
+              <Ionicons name="calendar-outline" size={64} color="#CBD5E1" />
+              <Text className="text-slate-500 text-lg font-medium mt-4">
+                No tienes citas programadas
+              </Text>
+              <Text className="text-slate-400 text-sm mt-2">
+                Toca el botón + para crear tu primera cita
+              </Text>
+            </View>
+          }
+          onRefresh={() => {
+            refetch();
+          }}
+          refreshing={isRefetching || isFetching}
         />
       </View>
 

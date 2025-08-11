@@ -1,11 +1,31 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator
+} from 'react-native';
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 
 import ScheduleCard from '@/modules/core/components/shared/schedule-card';
-import { appointments } from '@/constants/dummy-data';
+import { useGetAppointments } from '@/modules/core/hooks/appointments/use-appointments';
 
 export default function DashboardScreen() {
+  const { data: appointments, isLoading, isError } = useGetAppointments();
+  if (isLoading) {
+    return (
+      <View className="flex-1 bg-slate-50 justify-center items-center">
+        <ActivityIndicator size="large" color="#3B82F6" />
+      </View>
+    );
+  }
+
+  if (isError) {
+    return <Text>Error al cargar las citas</Text>;
+  }
+
   return (
     <ScrollView
       className="flex-1 bg-white"
@@ -132,7 +152,7 @@ export default function DashboardScreen() {
         </View>
 
         <View className="gap-y-3">
-          {appointments.map((appointment) => (
+          {appointments?.slice(0, 3).map((appointment) => (
             <ScheduleCard key={appointment.id} {...appointment} />
           ))}
         </View>
