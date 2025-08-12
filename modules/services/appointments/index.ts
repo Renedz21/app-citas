@@ -24,21 +24,64 @@ export async function getAppointments(): Promise<AppointmentWithDetails[]> {
   return data as AppointmentWithDetails[];
 }
 
-export async function getAppointmentById(id: string) {
+export async function getAppointmentById(
+  id: string
+): Promise<AppointmentWithDetails | null> {
   const { data, error } = await supabase
     .from('appointments')
-    .select('*')
-    .eq('id', id);
+    .select(
+      `
+     *,
+     client:clients(id,name,phone,email,age),
+     user_service:user_services(
+       id,
+       custom_name,
+       custom_description,
+       price_cents,
+       currency,
+       duration_minutes,
+       service:services(
+         id,
+         name,
+         description,
+         category:service_categories(id,name,color)
+       )
+     )
+    `
+    )
+    .eq('id', id)
+    .maybeSingle();
   if (error) throw error;
-  return data;
+  return data as unknown as AppointmentWithDetails | null;
 }
 
-export async function createAppointment(appointment: CreateAppointmentData) {
+export async function createAppointment(
+  appointment: CreateAppointmentData
+): Promise<AppointmentWithDetails> {
   const { data, error } = await supabase
     .from('appointments')
     .insert(appointment)
-    .select()
+    .select(
+      `
+     *,
+     client:clients(id,name,phone,email,age),
+     user_service:user_services(
+       id,
+       custom_name,
+       custom_description,
+       price_cents,
+       currency,
+       duration_minutes,
+       service:services(
+         id,
+         name,
+         description,
+         category:service_categories(id,name,color)
+       )
+     )
+    `
+    )
     .single();
   if (error) throw error;
-  return data;
+  return data as unknown as AppointmentWithDetails;
 }

@@ -4,6 +4,7 @@
  */
 
 import { Database } from './database';
+import { Note } from './client.types';
 
 // Base types from database
 export type AppointmentRow =
@@ -79,7 +80,7 @@ export interface CreateAppointmentData {
   starts_at: string;
   ends_at: string;
   duration_minutes?: number;
-  notes?: string;
+  notes?: Note[];
   status?: AppointmentStatus;
 }
 
@@ -91,7 +92,7 @@ export interface UpdateAppointmentData {
   ends_at?: string;
   duration_minutes?: number;
   status?: AppointmentStatus;
-  notes?: string;
+  notes?: Note[];
 }
 
 // Appointment summary for calendar/list view

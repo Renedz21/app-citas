@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  type QueryKey
+} from '@tanstack/react-query';
 import { handleQueryError } from '../../../lib/react-query';
 
 /**
@@ -22,9 +27,9 @@ export function useAppMutation<
   TVariables = void
 >(
   options: Parameters<typeof useMutation<TData, TError, TVariables>>[0] & {
-    invalidateQueries?: string[][];
+    invalidateQueries?: QueryKey[];
     optimisticUpdate?: {
-      queryKey: string[];
+      queryKey: QueryKey;
       updater: (old: any, variables: TVariables) => any;
     };
   }

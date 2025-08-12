@@ -1,60 +1,66 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  SafeAreaView
-} from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
+
+import GiftIcon from '@/assets/icons/gift.svg';
+import CheckCircleIcon from '@/assets/icons/check-circle.svg';
+import ChevronLeftIcon from '@/assets/icons/chevron-left.svg';
+import StarIcon from '@/assets/icons/star.svg';
+import BarChartIcon from '@/assets/icons/chart.svg';
+import CalendarIcon from '@/assets/icons/calendar.svg';
+import UsersIcon from '@/assets/icons/users.svg';
+import FileTextIcon from '@/assets/icons/file-text.svg';
+import ShieldIcon from '@/assets/icons/shield.svg';
+import ZapIcon from '@/assets/icons/zap.svg';
+import PhoneIcon from '@/assets/icons/phone.svg';
+import DownloadIcon from '@/assets/icons/download.svg';
 
 const features = [
   {
-    icon: 'bar-chart-2',
+    icon: BarChartIcon,
     title: 'Análisis Avanzados',
     description:
       'Reportes detallados de tu práctica con métricas profesionales',
     color: '#3B82F6'
   },
   {
-    icon: 'calendar',
+    icon: CalendarIcon,
     title: 'Calendario Ilimitado',
     description: 'Programa citas sin límites y gestiona múltiples horarios',
     color: '#10B981'
   },
   {
-    icon: 'users',
+    icon: UsersIcon,
     title: 'Clientes Ilimitados',
     description: 'Gestiona tantos pacientes como necesites sin restricciones',
     color: '#8B5CF6'
   },
   {
-    icon: 'file-text',
+    icon: FileTextIcon,
     title: 'Notas Clínicas Avanzadas',
     description: 'Plantillas personalizadas y historial clínico completo',
     color: '#F59E0B'
   },
   {
-    icon: 'shield',
+    icon: ShieldIcon,
     title: 'Backup Automático',
     description: 'Respaldo seguro en la nube de toda tu información',
     color: '#EF4444'
   },
   {
-    icon: 'zap',
+    icon: ZapIcon,
     title: 'Automatización',
     description: 'Recordatorios automáticos y flujos de trabajo optimizados',
     color: '#06B6D4'
   },
   {
-    icon: 'phone',
+    icon: PhoneIcon,
     title: 'Soporte Prioritario',
     description: 'Atención personalizada 24/7 para resolver cualquier duda',
     color: '#84CC16'
   },
   {
-    icon: 'download',
+    icon: DownloadIcon,
     title: 'Exportación de Datos',
     description: 'Exporta reportes en PDF y Excel para análisis externos',
     color: '#F97316'
@@ -95,7 +101,7 @@ export default function PremiumScreen() {
             onPress={() => router.back()}
             className="p-2 -ml-2 mr-3"
           >
-            <Feather name="arrow-left" size={24} color="#64748B" />
+            <ChevronLeftIcon width={24} height={24} />
           </TouchableOpacity>
           <Text className="text-slate-900 text-xl font-semibold">
             Upgrade Premium
@@ -108,7 +114,7 @@ export default function PremiumScreen() {
         <View className="bg-indigo-600 px-6 py-12">
           <View className="items-center">
             <View className="w-20 h-20 bg-white/20 rounded-full items-center justify-center mb-6">
-              <Feather name="star" size={32} color="white" />
+              <StarIcon width={32} height={32} color="white" />
             </View>
             <Text className="text-white text-3xl font-bold text-center mb-3">
               Lleva tu práctica
@@ -143,9 +149,9 @@ export default function PremiumScreen() {
                     className="w-12 h-12 rounded-full items-center justify-center mr-4"
                     style={{ backgroundColor: `${feature.color}15` }}
                   >
-                    <Feather
-                      name={feature.icon as any}
-                      size={20}
+                    <feature.icon
+                      width={20}
+                      height={20}
                       color={feature.color}
                     />
                   </View>
@@ -241,7 +247,7 @@ export default function PremiumScreen() {
 
                 {selectedPlan === plan.id && (
                   <View className="flex-row items-center mt-2">
-                    <Feather name="check-circle" size={16} color="#4F46E5" />
+                    <CheckCircleIcon width={16} height={16} color="#4F46E5" />
                     <Text className="text-indigo-600 text-sm font-medium ml-2">
                       Plan seleccionado
                     </Text>
@@ -255,7 +261,7 @@ export default function PremiumScreen() {
           <View className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6">
             <View className="flex-row items-center">
               <View className="w-10 h-10 bg-emerald-100 rounded-full items-center justify-center mr-3">
-                <Feather name="gift" size={18} color="#10B981" />
+                <GiftIcon width={18} height={18} color="#10B981" />
               </View>
               <View className="flex-1">
                 <Text className="text-emerald-900 font-semibold">

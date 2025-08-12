@@ -2,74 +2,38 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
+  FlatList,
   TouchableOpacity,
   TextInput,
-  ScrollView,
-  ActivityIndicator
+  ScrollView
 } from 'react-native';
-import { Ionicons, Feather } from '@expo/vector-icons';
-import { AppointmentWithDetails } from '@/types';
+import { appointments } from '@/constants/dummy-data';
+import { Appointment } from '@/types/dummy-data.type';
 import ScheduleCard from '@/modules/core/components/shared/schedule-card';
-import { useGetAppointments } from '@/modules/core/hooks/appointments/use-appointments';
-import { FlashList } from '@shopify/flash-list';
 
-const renderItem = ({ item }: { item: AppointmentWithDetails }) => (
+import SearchIcon from '@/assets/icons/search.svg';
+import FilterIcon from '@/assets/icons/filter.svg';
+import PlusIcon from '@/assets/icons/plus.svg';
+import CloseCircleIcon from '@/assets/icons/circle-x.svg';
+
+const filters = [
+  {
+    label: 'Todas',
+    count: appointments.length,
+    color: 'bg-slate-100 text-slate-700'
+  },
+  { label: 'Confirmadas', count: 3, color: 'bg-green-100 text-green-700' },
+  { label: 'Pendientes', count: 2, color: 'bg-amber-100 text-amber-700' },
+  { label: 'Canceladas', count: 1, color: 'bg-red-100 text-red-700' }
+];
+
+const renderItem = ({ item }: { item: Appointment }) => (
   <ScheduleCard {...item} />
 );
 
 export default function Appointments() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('Todas');
-
-  const {
-    data: appointments,
-    isLoading,
-    isError,
-    refetch,
-    isRefetching,
-    isFetching
-  } = useGetAppointments();
-
-  if (isLoading) {
-    return (
-      <View className="flex-1 bg-slate-50 justify-center items-center">
-        <ActivityIndicator size="large" color="#3B82F6" />
-      </View>
-    );
-  }
-
-  if (isError) {
-    return (
-      <View className="flex-1 bg-slate-50 justify-center items-center">
-        <Text className="text-red-600">Error al cargar citas</Text>
-      </View>
-    );
-  }
-
-  // Create dynamic filters based on actual data
-  const appointmentsList = appointments || [];
-  const filters = [
-    {
-      label: 'Todas',
-      count: appointmentsList.length,
-      color: 'bg-slate-100 text-slate-700'
-    },
-    {
-      label: 'Programadas',
-      count: appointmentsList.filter((a) => a.status === 'scheduled').length,
-      color: 'bg-blue-100 text-blue-700'
-    },
-    {
-      label: 'Completadas',
-      count: appointmentsList.filter((a) => a.status === 'completed').length,
-      color: 'bg-green-100 text-green-700'
-    },
-    {
-      label: 'Canceladas',
-      count: appointmentsList.filter((a) => a.status === 'cancelled').length,
-      color: 'bg-red-100 text-red-700'
-    }
-  ];
 
   return (
     <View className="flex-1 bg-slate-50">
@@ -81,7 +45,7 @@ export default function Appointments() {
 
         {/* Search Bar */}
         <View className="flex-row items-center bg-slate-50 rounded-xl px-4 py-3 mb-4">
-          <Feather name="search" size={20} color="#64748B" />
+          <SearchIcon width={20} height={20} color="#64748B" />
           <TextInput
             className="flex-1 ml-3 text-slate-900"
             placeholder="Buscar por nombre, servicio..."
@@ -91,7 +55,7 @@ export default function Appointments() {
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => setSearchQuery('')}>
-              <Ionicons name="close-circle" size={20} color="#94A3B8" />
+              <CloseCircleIcon width={20} height={20} color="#94A3B8" />
             </TouchableOpacity>
           )}
         </View>
@@ -134,10 +98,10 @@ export default function Appointments() {
         {/* Results Header */}
         <View className="flex-row items-center justify-between mb-4">
           <Text className="text-slate-600 text-sm">
-            {appointmentsList.length} citas encontradas
+            {appointments.length} citas encontradas
           </Text>
           <TouchableOpacity className="flex-row items-center">
-            <Feather name="filter" size={16} color="#64748B" />
+            <FilterIcon width={16} height={16} color="#64748B" />
             <Text className="ml-1 text-slate-600 text-sm font-medium">
               Filtrar
             </Text>
@@ -145,28 +109,12 @@ export default function Appointments() {
         </View>
 
         {/* Appointments List */}
-        <FlashList
-          data={appointmentsList}
+        <FlatList
+          data={appointments}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
-          estimatedItemSize={100}
           contentContainerStyle={{ paddingBottom: 100 }}
-          ListEmptyComponent={
-            <View className="flex-1 justify-center items-center py-20">
-              <Ionicons name="calendar-outline" size={64} color="#CBD5E1" />
-              <Text className="text-slate-500 text-lg font-medium mt-4">
-                No tienes citas programadas
-              </Text>
-              <Text className="text-slate-400 text-sm mt-2">
-                Toca el botón + para crear tu primera cita
-              </Text>
-            </View>
-          }
-          onRefresh={() => {
-            refetch();
-          }}
-          refreshing={isRefetching || isFetching}
         />
       </View>
 
@@ -175,7 +123,7 @@ export default function Appointments() {
         className="absolute bottom-6 right-6 bg-indigo-600 p-4 rounded-full shadow-lg"
         activeOpacity={0.8}
       >
-        <Ionicons name="add" size={24} color="#fff" />
+        <PlusIcon width={24} height={24} color="#fff" />
       </TouchableOpacity>
     </View>
   );

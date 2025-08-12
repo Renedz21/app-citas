@@ -16,6 +16,11 @@ export type ClientStatus = 'Activo' | 'Inactivo' | 'Nuevo';
 // Gender options
 export type Gender = 'Masculino' | 'Femenino' | 'Otro' | 'Prefiero no decir';
 
+export type Note = {
+  content: string;
+  tags: string[];
+} | null;
+
 // Enhanced Client interface for application use
 export interface Client {
   id: string;
@@ -29,7 +34,7 @@ export interface Client {
   next_appointment: string | null;
   total_sessions: number;
   status: ClientStatus;
-  notes: string | null;
+  notes: Note[] | null;
   diagnosis: string | null;
   created_at: string;
 }
@@ -41,7 +46,7 @@ export interface CreateClientData {
   phone?: string;
   age?: number;
   gender?: Gender;
-  notes?: string;
+  notes?: Note[];
   diagnosis?: string;
   status?: ClientStatus;
 }
@@ -57,7 +62,7 @@ export interface UpdateClientData {
   next_appointment?: string;
   total_sessions?: number;
   status?: ClientStatus;
-  notes?: string;
+  notes?: Note[];
   diagnosis?: string;
 }
 
@@ -69,12 +74,20 @@ export interface ClientWithDetails extends Client {
     service: string;
     status: string;
   }[];
+  appointments: {
+    id: string;
+    starts_at: string;
+    ends_at: string;
+    status: string;
+    notes: Note[] | null;
+    duration_minutes: number;
+  }[];
   recent_appointments: {
     id: string;
     starts_at: string;
     service: string;
     status: string;
-    notes: string | null;
+    notes: Note[] | null;
   }[];
   payment_history: {
     id: string;
@@ -146,7 +159,7 @@ export interface ClientPreferences {
   communication_method?: 'email' | 'sms' | 'phone' | 'whatsapp';
   reminder_time?: number; // hours before appointment
   language?: 'es' | 'en';
-  notes?: string;
+  notes?: Note[] | null;
 }
 
 // Emergency contact information

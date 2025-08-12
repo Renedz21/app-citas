@@ -1,6 +1,10 @@
 // @testing-library/react-native/extend-expect is deprecated
 // Modern versions include matchers by default
 
+// Set up environment variables for Supabase
+process.env.EXPO_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
+process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';
+
 // Mock AsyncStorage
 
 // Mock react-native modules (commented out as it's handled by jest-expo)
