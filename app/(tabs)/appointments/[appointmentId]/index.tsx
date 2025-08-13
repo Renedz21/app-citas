@@ -117,7 +117,7 @@ export default function AppointmentDetails() {
             Detalles de pago
           </Text>
           <View className="flex-row justify-between items-center py-2">
-            <Text className="text-slate-600">Consultac</Text>
+            <Text className="text-slate-600">Tarifa de consulta</Text>
             <Text className="text-slate-900 font-medium">$50.00</Text>
           </View>
           <View className="flex-row justify-between items-center py-2 border-t border-slate-100 mt-2 pt-3">

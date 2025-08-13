@@ -17,11 +17,13 @@ export function useOfflineSupport() {
 
   const isOnline = netInfo.isConnected ?? true;
   const isOffline = !isOnline;
-
   useEffect(() => {
     if (wasOffline && isOnline) {
       // Coming back online - retry failed queries and mutations
-      console.log('Network reconnected - syncing data...');
+      // TODO: Replace with proper logging solution (e.g., Flipper, Reactotron, or analytics)
+      if (__DEV__) {
+        console.log('Network reconnected - syncing data...');
+      }
 
       // Retry failed queries
       queryClient.refetchQueries({

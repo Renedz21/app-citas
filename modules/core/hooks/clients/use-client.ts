@@ -3,13 +3,12 @@ import type { FullClient, ClientFilters, QueryConfig } from '@/types/entities';
 import { type UseQueryResult } from '@tanstack/react-query';
 import { useAppQuery } from '../use-query-helpers';
 import { getClientById, getClients } from '@/modules/services/clients';
-
 export function useGetClients(
   filters?: ClientFilters,
   config?: QueryConfig<FullClient[]>
 ): UseQueryResult<FullClient[], Error> {
   return useAppQuery<FullClient[], Error>({
-    queryKey: queryKeys.clientsList(),
+    queryKey: queryKeys.clientsList(filters),
     queryFn: () => getClients(filters),
     ...config,
     // Ensure enabled is respected

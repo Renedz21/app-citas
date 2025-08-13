@@ -116,7 +116,6 @@ export async function getClientById(id: string): Promise<FullClient> {
     .single();
 
   if (error) {
-    console.log({ error });
     throw error;
   }
 

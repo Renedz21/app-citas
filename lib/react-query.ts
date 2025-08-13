@@ -89,7 +89,11 @@ export const handleQueryError = (error: any) => {
     return 'Server error. Please try again later.';
   }
 
-  if (!navigator.onLine) {
+  // Check for network-related errors instead of navigator.onLine
+  if (
+    error?.code === 'NETWORK_ERROR' ||
+    error?.message?.includes('Network Error')
+  ) {
     return 'No internet connection. Please check your network.';
   }
 
