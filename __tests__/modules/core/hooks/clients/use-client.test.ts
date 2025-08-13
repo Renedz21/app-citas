@@ -14,7 +14,11 @@ jest.mock('@/modules/services/clients');
 jest.mock('@/modules/core/hooks/use-query-helpers', () => ({
   useAppQuery: jest.fn((options) => {
     const { useQuery } = require('@tanstack/react-query');
-    return useQuery(options);
+    // Properly pass through all options including enabled
+    return useQuery({
+      ...options,
+      throwOnError: false
+    });
   })
 }));
 
@@ -116,13 +120,17 @@ describe('useGetClients', () => {
     expect(result.current.data).toEqual([]);
   });
 
-  it('should respect custom config options', () => {
+  it('should respect custom config options', async () => {
     const { result } = renderHook(
-      () => useGetClients({ enabled: false }),
+      () => useGetClients(undefined, { enabled: false }),
       { wrapper: createWrapper() }
     );
 
-    expect(result.current.isLoading).toBe(false);
+    // Wait for the hook to settle
+    await waitFor(() => {
+      expect(result.current.isFetching).toBe(false);
+    });
+
     expect(clientService.getClients).not.toHaveBeenCalled();
   });
 

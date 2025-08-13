@@ -1,5 +1,12 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useMemo } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator
+} from 'react-native';
 
 import ScheduleCard from '@/modules/core/components/shared/schedule-card';
 
@@ -11,10 +18,21 @@ import UsersIcon from '@/assets/icons/users.svg';
 import BarChartIcon from '@/assets/icons/chart.svg';
 import ClockIcon from '@/assets/icons/clock.svg';
 import { Link } from 'expo-router';
-
-import { appointments } from '@/constants/dummy-data';
+import { useGetAppointments } from '@/modules/core/hooks/appointments/use-appointments';
+import { APPOINTMENT_STATUSES } from '@/types/entities';
 
 export default function DashboardScreen() {
+  const { data: appointments, isLoading } = useGetAppointments({
+    status: [APPOINTMENT_STATUSES[1], APPOINTMENT_STATUSES[0]]
+  });
+
+  const firstThreeAppointments = useMemo(() => {
+    return appointments?.slice(0, 3);
+  }, [appointments]);
+
+  if (isLoading) return <ActivityIndicator />;
+  if (appointments?.length === 0) return <Text>No hay citas</Text>;
+
   return (
     <ScrollView
       className="flex-1 bg-white"
@@ -136,8 +154,8 @@ export default function DashboardScreen() {
         </View>
 
         <View className="gap-y-3">
-          {appointments?.slice(0, 3).map((appointment) => (
-            <ScheduleCard key={appointment.id} {...appointment} />
+          {firstThreeAppointments?.map((appointment) => (
+            <ScheduleCard key={appointment.id} appointment={appointment} />
           ))}
         </View>
       </View>

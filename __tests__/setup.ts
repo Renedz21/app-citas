@@ -14,6 +14,17 @@ process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';
 jest.mock('expo-font');
 jest.mock('expo-asset');
 
+// Mock react-native-keyboard-controller
+jest.mock('react-native-keyboard-controller', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+  
+  return {
+    KeyboardAvoidingView: View,
+    KeyboardProvider: ({ children }: any) => children,
+  };
+});
+
 // Mock SVG components globally
 jest.mock('react-native-svg', () => {
   const React = require('react');
@@ -44,6 +55,11 @@ jest.mock('react-native-svg', () => {
     Mask: View
   };
 });
+
+// Mock specific SVG icons that are causing issues
+jest.mock('@/assets/icons/chevron-left.svg', () => 'ChevronLeftIcon');
+jest.mock('@/assets/icons/clock.svg', () => 'ClockIcon');
+jest.mock('@/assets/icons/phone.svg', () => 'PhoneIcon');
 
 // Mock gesture handler
 jest.mock('react-native-gesture-handler', () => {

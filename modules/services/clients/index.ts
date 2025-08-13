@@ -1,8 +1,22 @@
 import { supabase } from '@/lib/supabase';
-import { Client, ClientFilters, ClientWithDetails } from '@/types';
+import type { FullClient, ClientFilters } from '@/types/entities';
 
-export async function getClients(filters?: ClientFilters): Promise<Client[]> {
-  let query = supabase.from('clients').select('*');
+export async function getClients(
+  filters?: ClientFilters
+): Promise<FullClient[]> {
+  let query = supabase.from('clients').select(`
+    *,
+    profiles!inner(
+      id,
+      first_name,
+      last_name,
+      email,
+      phone,
+      profile_type,
+      created_at,
+      updated_at
+    )
+  `);
   // Apply filters to the Supabase query in a concise, readable way
   if (filters) {
     const {
@@ -34,12 +48,13 @@ export async function getClients(filters?: ClientFilters): Promise<Client[]> {
       query = query.lte('age', age_max);
     }
     if (search) {
-      // Search in name, email, or phone fields
+      // Search in profile fields
       query = query.or(
         [
-          `name.ilike.%${search}%`,
-          `email.ilike.%${search}%`,
-          `phone.ilike.%${search}%`
+          `profiles.first_name.ilike.%${search}%`,
+          `profiles.last_name.ilike.%${search}%`,
+          `profiles.email.ilike.%${search}%`,
+          `profiles.phone.ilike.%${search}%`
         ].join(',')
       );
     }
@@ -53,18 +68,49 @@ export async function getClients(filters?: ClientFilters): Promise<Client[]> {
   const { data, error } = await query;
 
   if (error) throw error;
-  return data as Client[];
+  return data as FullClient[];
 }
 
-export async function getClientById(id: string): Promise<ClientWithDetails> {
+export async function getClientById(id: string): Promise<FullClient> {
   const { data, error } = await supabase
     .from('clients')
     .select(
       `
       *,
-      appointments:appointments(id,starts_at,ends_at,status,duration_minutes,notes),
-      payment_history:payments(id,amount_cents,currency,method,status,paid_at,created_at)
-      `
+      profiles!inner(
+        id,
+        first_name,
+        last_name,
+        email,
+        phone,
+        profile_type,
+        business_name,
+        profession,
+        specialization,
+        title,
+        created_at,
+        updated_at
+      ),
+      client_info(*),
+      client_preferences(*),
+      appointments(
+        id,
+        appointment_code,
+        appointment_date,
+        start_time,
+        duration_minutes,
+        status,
+        notes,
+        consultation_fee
+      ),
+      payments(
+        id,
+        amount,
+        status,
+        transaction_date,
+        created_at
+      )
+    `
     )
     .eq('id', id)
     .single();
@@ -74,5 +120,5 @@ export async function getClientById(id: string): Promise<ClientWithDetails> {
     throw error;
   }
 
-  return data as ClientWithDetails;
+  return data as FullClient;
 }
