@@ -26,7 +26,7 @@ export function useGetAppointments(
   config?: QueryConfig<AppointmentWithDetails[]>
 ): UseQueryResult<AppointmentWithDetails[], Error> {
   return useAppQuery<AppointmentWithDetails[], Error>({
-    queryKey: queryKeys.appointmentsList(),
+    queryKey: queryKeys.appointmentsList(filters),
     queryFn: () => getAppointments(filters),
     ...config,
     ...(config?.enabled !== undefined && { enabled: config.enabled })
