@@ -1,10 +1,11 @@
 // @testing-library/react-native/extend-expect is deprecated
 // Modern versions include matchers by default
 
+// Set up environment variables for Supabase
+process.env.EXPO_PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
+process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';
+
 // Mock AsyncStorage
-jest.mock('@react-native-async-storage/async-storage', () =>
-  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
-);
 
 // Mock react-native modules (commented out as it's handled by jest-expo)
 // jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
@@ -12,6 +13,17 @@ jest.mock('@react-native-async-storage/async-storage', () =>
 // Mock expo modules that might be used
 jest.mock('expo-font');
 jest.mock('expo-asset');
+
+// Mock react-native-keyboard-controller
+jest.mock('react-native-keyboard-controller', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+  
+  return {
+    KeyboardAvoidingView: View,
+    KeyboardProvider: ({ children }: any) => children,
+  };
+});
 
 // Mock SVG components globally
 jest.mock('react-native-svg', () => {
@@ -43,6 +55,11 @@ jest.mock('react-native-svg', () => {
     Mask: View
   };
 });
+
+// Mock specific SVG icons that are causing issues
+jest.mock('@/assets/icons/chevron-left.svg', () => 'ChevronLeftIcon');
+jest.mock('@/assets/icons/clock.svg', () => 'ClockIcon');
+jest.mock('@/assets/icons/phone.svg', () => 'PhoneIcon');
 
 // Mock gesture handler
 jest.mock('react-native-gesture-handler', () => {

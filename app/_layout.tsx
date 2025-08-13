@@ -10,6 +10,8 @@ import {
   SafeAreaProvider,
   SafeAreaView
 } from 'react-native-safe-area-context';
+
+import { ReactQueryProvider } from '@/modules/core/providers/query-provider';
 import '../global.css';
 
 export { ErrorBoundary };
@@ -36,11 +38,13 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView className="flex-1">
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <ThemeProvider value={DefaultTheme}>
-          <KeyboardProvider>
-            <InitialLayout />
-          </KeyboardProvider>
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <ThemeProvider value={DefaultTheme}>
+            <KeyboardProvider>
+              <InitialLayout />
+            </KeyboardProvider>
+          </ThemeProvider>
+        </ReactQueryProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

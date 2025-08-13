@@ -3,28 +3,40 @@ import { render, fireEvent } from '@testing-library/react-native';
 import { Text } from 'react-native';
 import { Button } from '@/modules/core/components/ui/button';
 
+// Test constants for better maintainability
+const TEST_CONTENT = {
+  BUTTON_TITLE: 'Test Button',
+  CHILD_TEXT: 'Child Content',
+  PRESS_BUTTON: 'Press Me'
+} as const;
+
+// Mock icon component for testing
+const MockIcon = ({ testID }: { testID?: string }) => (
+  <Text testID={testID || 'mock-icon'}>Icon</Text>
+);
+
 describe('Button Component', () => {
   it('should render correctly with title', () => {
-    const { getByText } = render(<Button title="Test Button" />);
-    expect(getByText('Test Button')).toBeTruthy();
+    const { getByText } = render(<Button title={TEST_CONTENT.BUTTON_TITLE} />);
+    expect(getByText(TEST_CONTENT.BUTTON_TITLE)).toBeTruthy();
   });
 
   it('should render correctly with children', () => {
     const { getByText } = render(
       <Button>
-        <Text>Child Content</Text>
+        <Text>{TEST_CONTENT.CHILD_TEXT}</Text>
       </Button>
     );
-    expect(getByText('Child Content')).toBeTruthy();
+    expect(getByText(TEST_CONTENT.CHILD_TEXT)).toBeTruthy();
   });
 
   it('should call onPress when pressed', () => {
     const mockOnPress = jest.fn();
     const { getByText } = render(
-      <Button title="Press Me" onPress={mockOnPress} />
+      <Button title={TEST_CONTENT.PRESS_BUTTON} onPress={mockOnPress} />
     );
 
-    fireEvent.press(getByText('Press Me'));
+    fireEvent.press(getByText(TEST_CONTENT.PRESS_BUTTON));
     expect(mockOnPress).toHaveBeenCalledTimes(1);
   });
 

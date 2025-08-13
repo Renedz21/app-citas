@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 import { Button } from '@/modules/core/components/ui/button';
 
-import GoogleIcon from '@/assets/images/google-logo.svg';
-import AppleIcon from '@/assets/images/apple.svg';
+import GoogleIcon from '@/assets/icons/google.svg';
+import AppleIcon from '@/assets/icons/apple.svg';
 
 export function SocialButtons() {
   return (

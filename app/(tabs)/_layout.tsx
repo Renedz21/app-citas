@@ -1,12 +1,9 @@
-import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof Ionicons>['name'];
-  color: string;
-}) {
-  return <Ionicons size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import HomeIcon from '@/assets/icons/home.svg';
+import CalendarIcon from '@/assets/icons/calendar.svg';
+import PeopleIcon from '@/assets/icons/users.svg';
+import SettingsIcon from '@/assets/icons/settings.svg';
 
 export default function TabLayout() {
   return (
@@ -20,7 +17,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="home-outline" color={color} />
+            <HomeIcon width={24} height={24} color={color} />
           )
         }}
       />
@@ -29,7 +26,7 @@ export default function TabLayout() {
         options={{
           title: 'Citas',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="calendar-outline" color={color} />
+            <CalendarIcon width={24} height={24} color={color} />
           )
         }}
       />
@@ -45,7 +42,7 @@ export default function TabLayout() {
         options={{
           title: 'Clientes',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="people-outline" color={color} />
+            <PeopleIcon width={24} height={24} color={color} />
           )
         }}
       />
@@ -61,7 +58,7 @@ export default function TabLayout() {
         options={{
           title: 'Configuración',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="settings-outline" color={color} />
+            <SettingsIcon width={24} height={24} color={color} />
           )
         }}
       />

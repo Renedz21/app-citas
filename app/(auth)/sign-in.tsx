@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { useSignIn } from '@/modules/core/hooks/use-sign-in';
 import {
@@ -11,7 +11,8 @@ import {
 } from '@/modules/core/components/ui/form';
 import { Input } from '@/modules/core/components/ui/input';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+
+import  ChevronLeftIcon  from '@/assets/icons/chevron-left.svg';
 
 export default function LoginScreen() {
   const { form, onSubmit } = useSignIn();
@@ -26,7 +27,7 @@ export default function LoginScreen() {
             className="p-2 -ml-2 mr-3"
             testID="back_button"
           >
-            <Ionicons name="arrow-back" size={24} color="#64748B" />
+            <ChevronLeftIcon width={24} height={24} />
           </TouchableOpacity>
           <View>
             <Text className="text-slate-900 text-xl font-semibold">
@@ -43,7 +44,13 @@ export default function LoginScreen() {
         <View className="flex-1 py-8 justify-center">
           <View className="mb-8">
             <View className="w-16 h-16 bg-indigo-100 rounded-full items-center justify-center mb-6 self-center">
-              <Ionicons name="medical" size={32} color="#4F46E5" />
+              {/* TODO: Cambiar a la imagen de la app por el logo de la app*/}
+              {/* <Ionicons name="medical" size={32} color="#4F46E5" /> */}
+              <Image
+                source={require('@/assets/images/icon.png')}
+                className="w-16 h-16"
+                resizeMode="contain"
+              />
             </View>
             <Text className="text-slate-900 text-2xl font-bold text-center mb-2">
               Bienvenido de vuelta

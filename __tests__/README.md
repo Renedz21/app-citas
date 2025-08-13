@@ -27,12 +27,23 @@ __tests__/
 - **lib/utils.test.ts**: Tests for utility functions like `cn` (className merger)
 - **schemas/auth.schema.test.ts**: Zod validation schema tests for authentication
 - **hooks/use-auth.test.tsx**: Custom authentication hook tests
+- **hooks/use-sign-in.test.tsx**: Sign-in hook unit tests
+- **hooks/use-sign-up.test.tsx**: Sign-up hook unit tests
 - **components/ui/**: UI component tests (Button, Input, etc.)
-- **components/shared/**: Shared component tests (SocialButtons, etc.)
+- **components/shared/**: Shared component tests (Schedule Card, etc.)
 
 ### Integration Tests
 
-- **integration/auth-flow.test.tsx**: End-to-end authentication flow tests
+- **integration/hooks-integration.test.tsx**: Comprehensive integration tests for authentication hooks
+  - Tests hook interactions, form validation, concurrent submissions
+  - Performance testing and memory leak detection
+  - Error handling and recovery scenarios
+- **integration/auth-flow.test.tsx**: End-to-end authentication flow tests (simplified components)
+  - Tests complete user authentication journeys
+  - Form submission workflows and navigation
+- **integration/navigation-flow.test.tsx**: Navigation flow and component interaction tests
+  - Navigation state management and routing
+  - Component lifecycle and state persistence
 
 ## Running Tests
 
@@ -67,8 +78,18 @@ The test suite includes coverage for:
 - ✅ Utility functions (100%)
 - ✅ Validation schemas (100%)
 - ✅ Custom hooks (95%)
+  - Individual hook functionality
+  - Hook integration and interaction
+  - Form state management and validation
 - ✅ UI components (90%)
+  - Component rendering and props
+  - User interaction handling
+  - Accessibility compliance
 - ✅ Integration flows (85%)
+  - Authentication workflows
+  - Navigation patterns
+  - Hook integration scenarios
+  - Performance and error handling
 
 ## Writing New Tests
 

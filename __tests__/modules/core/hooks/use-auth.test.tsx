@@ -1,6 +1,16 @@
 import { renderHook, act } from '@testing-library/react-native';
 import { useAuth } from '@/modules/core/hooks/use-sign-in';
 
+// Test constants for better maintainability
+const TEST_DATA = {
+  VALID_EMAIL: 'test@example.com',
+  INVALID_EMAIL: 'invalid-email',
+  VALID_PASSWORD: 'password123',
+  SHORT_PASSWORD: '123',
+  VALID_NAME: 'John Doe',
+  EMPTY_NAME: ''
+} as const;
+
 // Mock console.log to test onSubmit function
 const mockConsoleLog = jest.spyOn(console, 'log').mockImplementation();
 
@@ -30,8 +40,8 @@ describe('useAuth hook', () => {
       let isValid: boolean;
 
       await act(async () => {
-        result.current.form.setValue('email', 'invalid-email');
-        result.current.form.setValue('password', 'password123');
+        result.current.form.setValue('email', TEST_DATA.INVALID_EMAIL);
+        result.current.form.setValue('password', TEST_DATA.VALID_PASSWORD);
         isValid = await result.current.form.trigger();
       });
 
@@ -40,8 +50,8 @@ describe('useAuth hook', () => {
 
       // Test with valid email but short password
       await act(async () => {
-        result.current.form.setValue('email', 'test@example.com');
-        result.current.form.setValue('password', '123');
+        result.current.form.setValue('email', TEST_DATA.VALID_EMAIL);
+        result.current.form.setValue('password', TEST_DATA.SHORT_PASSWORD);
         isValid = await result.current.form.trigger();
       });
 
@@ -50,8 +60,8 @@ describe('useAuth hook', () => {
 
       // Test with valid data
       await act(async () => {
-        result.current.form.setValue('email', 'test@example.com');
-        result.current.form.setValue('password', 'password123');
+        result.current.form.setValue('email', TEST_DATA.VALID_EMAIL);
+        result.current.form.setValue('password', TEST_DATA.VALID_PASSWORD);
         isValid = await result.current.form.trigger();
       });
 
@@ -63,8 +73,8 @@ describe('useAuth hook', () => {
       const { result } = renderHook(() => useAuth('login'));
 
       const testData = {
-        email: 'test@example.com',
-        password: 'password123'
+        email: TEST_DATA.VALID_EMAIL,
+        password: TEST_DATA.VALID_PASSWORD
       };
 
       act(() => {
@@ -93,9 +103,9 @@ describe('useAuth hook', () => {
 
       // Test empty name - should be invalid
       await act(async () => {
-        result.current.form.setValue('name', '');
-        result.current.form.setValue('email', 'test@example.com');
-        result.current.form.setValue('password', 'password123');
+        result.current.form.setValue('name', TEST_DATA.EMPTY_NAME);
+        result.current.form.setValue('email', TEST_DATA.VALID_EMAIL);
+        result.current.form.setValue('password', TEST_DATA.VALID_PASSWORD);
 
         isValid = await result.current.form.trigger();
       });
@@ -104,9 +114,9 @@ describe('useAuth hook', () => {
 
       // Test with valid data - should be valid
       await act(async () => {
-        result.current.form.setValue('name', 'John Doe');
-        result.current.form.setValue('email', 'test@example.com');
-        result.current.form.setValue('password', 'password123');
+        result.current.form.setValue('name', TEST_DATA.VALID_NAME);
+        result.current.form.setValue('email', TEST_DATA.VALID_EMAIL);
+        result.current.form.setValue('password', TEST_DATA.VALID_PASSWORD);
 
         isValid = await result.current.form.trigger();
       });
@@ -118,9 +128,9 @@ describe('useAuth hook', () => {
       const { result } = renderHook(() => useAuth('signup'));
 
       const testData = {
-        name: 'John Doe',
-        email: 'test@example.com',
-        password: 'password123'
+        name: TEST_DATA.VALID_NAME,
+        email: TEST_DATA.VALID_EMAIL,
+        password: TEST_DATA.VALID_PASSWORD
       };
 
       act(() => {
@@ -136,9 +146,9 @@ describe('useAuth hook', () => {
       let isValid: boolean;
 
       await act(async () => {
-        result.current.form.setValue('name', 'John Doe');
-        result.current.form.setValue('email', 'test@example.com');
-        result.current.form.setValue('password', 'password123');
+        result.current.form.setValue('name', TEST_DATA.VALID_NAME);
+        result.current.form.setValue('email', TEST_DATA.VALID_EMAIL);
+        result.current.form.setValue('password', TEST_DATA.VALID_PASSWORD);
 
         isValid = await result.current.form.trigger();
       });

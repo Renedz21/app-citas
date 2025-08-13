@@ -1,11 +1,38 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
-import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
+import React, { useMemo } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator
+} from 'react-native';
 
 import ScheduleCard from '@/modules/core/components/shared/schedule-card';
-import { appointments } from '@/constants/dummy-data';
+
+import PlusUserIcon from '@/assets/icons/user-plus.svg';
+import PlusCalendarIcon from '@/assets/icons/calendar-plus.svg';
+import BellIcon from '@/assets/icons/bell.svg';
+import CalendarIcon from '@/assets/icons/calendar.svg';
+import UsersIcon from '@/assets/icons/users.svg';
+import BarChartIcon from '@/assets/icons/chart.svg';
+import ClockIcon from '@/assets/icons/clock.svg';
+import { Link } from 'expo-router';
+import { useGetAppointments } from '@/modules/core/hooks/appointments/use-appointments';
+import { APPOINTMENT_STATUSES } from '@/types/entities';
 
 export default function DashboardScreen() {
+  const { data: appointments, isLoading } = useGetAppointments({
+    status: [APPOINTMENT_STATUSES[1], APPOINTMENT_STATUSES[0]]
+  });
+
+  const firstThreeAppointments = useMemo(() => {
+    return appointments?.slice(0, 3);
+  }, [appointments]);
+
+  if (isLoading) return <ActivityIndicator />;
+  if (appointments?.length === 0) return <Text>No hay citas</Text>;
+
   return (
     <ScrollView
       className="flex-1 bg-white"
@@ -26,11 +53,7 @@ export default function DashboardScreen() {
           </View>
           <View className="flex-row items-center gap-3">
             <TouchableOpacity className="p-2 bg-slate-100 rounded-full">
-              <Ionicons
-                name="notifications-outline"
-                size={20}
-                color="#64748B"
-              />
+              <BellIcon width={20} height={20} color="#64748B" />
             </TouchableOpacity>
             <Image
               source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
@@ -48,9 +71,7 @@ export default function DashboardScreen() {
           </Text>
           <View className="flex-row flex-wrap gap-3">
             <StatCard
-              icon={
-                <Ionicons name="calendar-outline" size={20} color="#3B82F6" />
-              }
+              icon={<CalendarIcon width={20} height={20} color="#3B82F6" />}
               title="Citas de hoy"
               value="5"
               subtitle="1 pendiente"
@@ -58,7 +79,7 @@ export default function DashboardScreen() {
               textColor="text-blue-600"
             />
             <StatCard
-              icon={<Feather name="users" size={20} color="#8B5CF6" />}
+              icon={<UsersIcon width={20} height={20} color="#8B5CF6" />}
               title="Clientes totales"
               value="152"
               subtitle="+5 este mes"
@@ -66,7 +87,7 @@ export default function DashboardScreen() {
               textColor="text-purple-600"
             />
             <StatCard
-              icon={<MaterialIcons name="alarm" size={20} color="#F59E0B" />}
+              icon={<ClockIcon width={20} height={20} color="#F59E0B" />}
               title="Próxima cita"
               value="4:00 PM"
               subtitle="Carla Torres"
@@ -74,7 +95,7 @@ export default function DashboardScreen() {
               textColor="text-amber-600"
             />
             <StatCard
-              icon={<Feather name="bar-chart-2" size={20} color="#10B981" />}
+              icon={<BarChartIcon width={20} height={20} color="#10B981" />}
               title="Ingresos este mes"
               value="$3,250"
               subtitle="+12% vs pasado"
@@ -92,7 +113,7 @@ export default function DashboardScreen() {
           <View className="flex-row gap-3">
             <TouchableOpacity className="flex-1 bg-indigo-600 py-4 px-4 rounded-xl">
               <View className="items-center">
-                <Ionicons name="add" size={24} color="white" />
+                <PlusCalendarIcon width={24} height={24} color="white" />
                 <Text className="text-white font-medium text-sm mt-1">
                   Nueva Cita
                 </Text>
@@ -100,7 +121,7 @@ export default function DashboardScreen() {
             </TouchableOpacity>
             <TouchableOpacity className="flex-1 bg-white border border-slate-200 py-4 px-4 rounded-xl">
               <View className="items-center">
-                <Feather name="calendar" size={24} color="#64748B" />
+                <CalendarIcon width={24} height={24} color="#64748B" />
                 <Text className="text-slate-700 font-medium text-sm mt-1">
                   Ver Agenda
                 </Text>
@@ -108,7 +129,7 @@ export default function DashboardScreen() {
             </TouchableOpacity>
             <TouchableOpacity className="flex-1 bg-white border border-slate-200 py-4 px-4 rounded-xl">
               <View className="items-center">
-                <Feather name="user-plus" size={24} color="#64748B" />
+                <PlusUserIcon width={24} height={24} color="#64748B" />
                 <Text className="text-slate-700 font-medium text-sm mt-1">
                   Nuevo Cliente
                 </Text>
@@ -123,17 +144,18 @@ export default function DashboardScreen() {
             <Text className="text-slate-900 text-lg font-semibold">
               Agenda de Hoy
             </Text>
-            <TouchableOpacity>
-              <Text className="text-indigo-600 font-medium text-sm">
-                Ver todo
-              </Text>
-            </TouchableOpacity>
+            <Link
+              href="/appointments"
+              className="text-indigo-600 font-medium text-sm"
+            >
+              Ver todo
+            </Link>
           </View>
         </View>
 
         <View className="gap-y-3">
-          {appointments.map((appointment) => (
-            <ScheduleCard key={appointment.id} {...appointment} />
+          {firstThreeAppointments?.map((appointment) => (
+            <ScheduleCard key={appointment.id} appointment={appointment} />
           ))}
         </View>
       </View>

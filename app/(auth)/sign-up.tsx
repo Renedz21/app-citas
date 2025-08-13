@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { useSignUp } from '@/modules/core/hooks/use-sign-up';
 import {
@@ -11,7 +11,7 @@ import {
 } from '@/modules/core/components/ui/form';
 import { Input } from '@/modules/core/components/ui/input';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import  ChevronLeftIcon  from '@/assets/icons/chevron-left.svg';
 
 export default function SignUpScreen() {
   const { form, onSubmit } = useSignUp();
@@ -27,7 +27,7 @@ export default function SignUpScreen() {
             className="p-2 -ml-2 mr-3"
             testID="back_button"
           >
-            <Ionicons name="arrow-back" size={24} color="#64748B" />
+            <ChevronLeftIcon width={24} height={24} />
           </TouchableOpacity>
           <View>
             <Text className="text-slate-900 text-xl font-semibold">
@@ -53,7 +53,11 @@ export default function SignUpScreen() {
           <View className="py-8">
             <View className="mb-8">
               <View className="w-16 h-16 bg-indigo-100 rounded-full items-center justify-center mb-6 self-center">
-                <Ionicons name="person-add" size={32} color="#4F46E5" />
+                              <Image
+                source={require('@/assets/images/icon.png')}
+                className="w-16 h-16"
+                resizeMode="contain"
+              />
               </View>
               <Text className="text-slate-900 text-2xl font-bold text-center mb-2">
                 Únete a nuestro equipo
