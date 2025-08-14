@@ -42,10 +42,10 @@ export const SETTINGS_PROFILE = {
 };
 
 export const PREMIUM_CONFIG = {
-  title: 'Upgrade to Premium',
+  title: 'Cambiar a Premium',
   subtitle: 'Desbloquea características avanzadas y análisis profesionales',
   price: 'Desde $25/mes',
-  trial: '7 días gratis',
+  trial: '7 días gratis de prueba',
   icon: StarIcon,
   href: '/premium'
 };

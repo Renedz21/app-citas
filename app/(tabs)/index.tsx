@@ -1,14 +1,8 @@
-import React, { useMemo } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-  ActivityIndicator
-} from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 
 import ScheduleCard from '@/modules/core/components/shared/schedule-card';
+import { appointments } from '@/constants/dummy-data';
 
 import PlusUserIcon from '@/assets/icons/user-plus.svg';
 import PlusCalendarIcon from '@/assets/icons/calendar-plus.svg';
@@ -18,21 +12,8 @@ import UsersIcon from '@/assets/icons/users.svg';
 import BarChartIcon from '@/assets/icons/chart.svg';
 import ClockIcon from '@/assets/icons/clock.svg';
 import { Link } from 'expo-router';
-import { useGetAppointments } from '@/modules/core/hooks/appointments/use-appointments';
-import { APPOINTMENT_STATUSES } from '@/types/entities';
 
 export default function DashboardScreen() {
-  const { data: appointments, isLoading } = useGetAppointments({
-    status: [APPOINTMENT_STATUSES[1], APPOINTMENT_STATUSES[0]]
-  });
-
-  const firstThreeAppointments = useMemo(() => {
-    return appointments?.slice(0, 3);
-  }, [appointments]);
-
-  if (isLoading) return <ActivityIndicator />;
-  if (appointments?.length === 0) return <Text>No hay citas</Text>;
-
   return (
     <ScrollView
       className="flex-1 bg-white"
@@ -48,7 +29,7 @@ export default function DashboardScreen() {
               Dr. Alex Martínez
             </Text>
             <Text className="text-slate-600 text-sm mt-1">
-              Psicología Clínica
+              Listo para un gran día de consultas
             </Text>
           </View>
           <View className="flex-row items-center gap-3">
@@ -57,17 +38,17 @@ export default function DashboardScreen() {
             </TouchableOpacity>
             <Image
               source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
-              className="w-10 h-10 rounded-full border border-slate-200"
+              className="w-12 h-12 rounded-full"
             />
           </View>
         </View>
       </View>
 
-      <View className="px-6 py-4">
-        {/* Stats Overview */}
+      {/* Quick Stats */}
+      <View className="px-6 py-6">
         <View className="mb-6">
           <Text className="text-slate-900 text-lg font-semibold mb-4">
-            Resumen de Hoy
+            Resumen de hoy
           </Text>
           <View className="flex-row flex-wrap gap-3">
             <StatCard
@@ -97,7 +78,7 @@ export default function DashboardScreen() {
             <StatCard
               icon={<BarChartIcon width={20} height={20} color="#10B981" />}
               title="Ingresos este mes"
-              value="$3,250"
+              value="S/8,250"
               subtitle="+12% vs pasado"
               bgColor="bg-emerald-50"
               textColor="text-emerald-600"
@@ -108,7 +89,7 @@ export default function DashboardScreen() {
         {/* Quick Actions */}
         <View className="mb-6">
           <Text className="text-slate-900 text-lg font-semibold mb-4">
-            Acciones Rápidas
+            Acciones rápidas
           </Text>
           <View className="flex-row gap-3">
             <TouchableOpacity className="flex-1 bg-indigo-600 py-4 px-4 rounded-xl">
@@ -138,9 +119,9 @@ export default function DashboardScreen() {
           </View>
         </View>
 
-        {/* Schedule */}
+        {/* Today's Schedule */}
         <View className="mb-4">
-          <View className="flex-row justify-between items-center mb-4">
+          <View className="flex-row items-center justify-between mb-4">
             <Text className="text-slate-900 text-lg font-semibold">
               Agenda de Hoy
             </Text>
@@ -154,13 +135,22 @@ export default function DashboardScreen() {
         </View>
 
         <View className="gap-y-3">
-          {firstThreeAppointments?.map((appointment) => (
-            <ScheduleCard key={appointment.id} appointment={appointment} />
+          {appointments.slice(0, 3).map((appointment) => (
+            <ScheduleCard key={appointment.id} {...appointment} />
           ))}
         </View>
       </View>
     </ScrollView>
   );
+}
+
+interface StatCardProps {
+  icon: React.ReactNode;
+  title: string;
+  value: string;
+  subtitle: string;
+  bgColor: string;
+  textColor: string;
 }
 
 function StatCard({
@@ -170,24 +160,22 @@ function StatCard({
   subtitle,
   bgColor,
   textColor
-}: {
-  icon: React.ReactNode;
-  title: string;
-  value: string;
-  subtitle: string;
-  bgColor: string;
-  textColor: string;
-}) {
+}: StatCardProps) {
   return (
     <View
-      className={`${bgColor} rounded-xl p-4 flex-1 min-w-[48%] border border-slate-100`}
+      className="flex-1 min-w-[160px] bg-white rounded-xl p-4 border border-slate-200"
+      style={{ minWidth: 160 }}
     >
-      <View className="mb-3">{icon}</View>
-      <Text className="text-slate-600 text-xs font-medium uppercase tracking-wide">
-        {title}
-      </Text>
-      <Text className={`text-xl font-bold ${textColor} mt-1`}>{value}</Text>
-      <Text className="text-slate-500 text-xs mt-1">{subtitle}</Text>
+      <View className="flex-row items-center justify-between mb-2">
+        <View
+          className={`w-10 h-10 ${bgColor} rounded-full items-center justify-center`}
+        >
+          {icon}
+        </View>
+        <Text className={`text-2xl font-bold ${textColor}`}>{value}</Text>
+      </View>
+      <Text className="text-slate-700 font-medium text-sm mb-1">{title}</Text>
+      <Text className="text-slate-500 text-xs">{subtitle}</Text>
     </View>
   );
 }
