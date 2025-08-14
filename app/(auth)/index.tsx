@@ -4,10 +4,11 @@ import { Platform, Text, View } from 'react-native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { Button } from '@/modules/core/components/ui/button';
 import { AuthSheetContent } from '@/modules/core/components/auth/auth-sheet-content';
+import { useRouter } from 'expo-router';
 
 export default function Index() {
   const bottomSheetRef = useRef<BottomSheet>(null);
-
+  const router = useRouter();
   const snapPoints = useMemo(() => ['40%'], []);
 
   const openSheet = useCallback(() => {
@@ -30,6 +31,13 @@ export default function Index() {
               {'\n'}Smarter, For
               {'\n'}Your Finance.
             </Text>
+            <Button
+              accessibilityLabel="Iniciemos"
+              variant={'secondary'}
+              title="Iniciemos"
+              onPress={() => router.push('/onboarding')}
+              testID="start_on_app"
+            />
             <Button
               accessibilityLabel="Iniciemos"
               variant={'secondary'}

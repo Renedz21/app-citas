@@ -1,139 +1,47 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
+  FlatList,
   TouchableOpacity,
   TextInput,
-  ActivityIndicator,
-  RefreshControl
+  ScrollView
 } from 'react-native';
 import ScheduleCard from '@/modules/core/components/shared/schedule-card';
+import { appointments } from '@/constants/dummy-data';
+import { Appointment } from '@/types/dummy-data.type';
 
 import SearchIcon from '@/assets/icons/search.svg';
 import FilterIcon from '@/assets/icons/filter.svg';
 import CloseCircleIcon from '@/assets/icons/circle-x.svg';
-import { APPOINTMENT_STATUSES, AppointmentWithDetails } from '@/types/entities';
-import { useGetAppointments } from '@/modules/core/hooks/appointments/use-appointments';
-import { FlashList } from '@shopify/flash-list';
-import { FilterBadges } from '@/modules/core/components/shared/appointments/filter-badges';
+import PlusIcon from '@/assets/icons/plus.svg';
 
-const STATUS_MAP = {
-  Confirmadas: APPOINTMENT_STATUSES[0],
-  Pendientes: APPOINTMENT_STATUSES[1],
-  Canceladas: APPOINTMENT_STATUSES[2]
-};
+const filters = [
+  {
+    label: 'Todas',
+    count: appointments.length,
+    color: 'bg-slate-100 text-slate-700'
+  },
+  { label: 'Confirmadas', count: 1, color: 'bg-green-100 text-green-700' },
+  { label: 'Pendientes', count: 1, color: 'bg-amber-100 text-amber-700' },
+  { label: 'Canceladas', count: 1, color: 'bg-red-100 text-red-700' }
+];
+
+const renderItem = ({ item }: { item: Appointment }) => (
+  <ScheduleCard {...item} />
+);
 
 export default function Appointments() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState('Todas');
-  const {
-    data: appointments,
-    isLoading,
-    refetch,
-    isFetching
-  } = useGetAppointments({
-    status: [APPOINTMENT_STATUSES[1], APPOINTMENT_STATUSES[0]]
-  });
 
-  const filters = useMemo(() => {
-    if (!appointments) return [];
-
-    const counts = appointments.reduce(
-      (acc, appointment) => {
-        const status = appointment.status;
-        if (status === APPOINTMENT_STATUSES[0]) acc.confirmed++;
-        else if (status === APPOINTMENT_STATUSES[1]) acc.pending++;
-        else if (status === APPOINTMENT_STATUSES[2]) acc.cancelled++;
-        acc.total++;
-        return acc;
-      },
-      { total: 0, confirmed: 0, pending: 0, cancelled: 0 }
-    );
-
-    return [
-      {
-        label: 'Todas',
-        count: counts.total,
-        color: 'bg-slate-100 text-slate-700'
-      },
-      {
-        label: 'Confirmadas',
-        count: counts.confirmed,
-        color: 'bg-green-100 text-green-700'
-      },
-      {
-        label: 'Pendientes',
-        count: counts.pending,
-        color: 'bg-amber-100 text-amber-700'
-      },
-      {
-        label: 'Canceladas',
-        count: counts.cancelled,
-        color: 'bg-red-100 text-red-700'
-      }
-    ];
-  }, [appointments]);
-
-  const filteredAppointments = useMemo(() => {
-    if (!appointments) return [];
-
-    let filtered = appointments;
-
-    // Filtrar por estado
-    if (selectedFilter !== 'Todas') {
-      const targetStatus =
-        STATUS_MAP[selectedFilter as keyof typeof STATUS_MAP];
-      if (targetStatus) {
-        filtered = filtered.filter(
-          (appointment) => appointment.status === targetStatus
-        );
-      }
-    }
-
-    // Filtrar por búsqueda
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter((appointment) => {
-        const clientName =
-          `${appointment.client.profiles.first_name} ${appointment.client.profiles.last_name}`.toLowerCase();
-        const serviceName =
-          appointment.professional_service.service.name.toLowerCase();
-        return clientName.includes(query) || serviceName.includes(query);
-      });
-    }
-
-    return filtered;
-  }, [appointments, searchQuery, selectedFilter]);
-
-  const renderItem = useCallback(
-    ({ item }: { item: AppointmentWithDetails }) => (
-      <ScheduleCard appointment={item} />
-    ),
-    []
-  );
-
-  const keyExtractor = useCallback(
-    (item: Pick<AppointmentWithDetails, 'id'>) => item.id,
-    []
-  );
-
-  const clearFilters = () => {
-    setSelectedFilter('Todas');
-    setSearchQuery('');
-  };
-
-  const hasFilters = selectedFilter !== 'Todas' || searchQuery.trim() !== '';
-
-  if (appointments?.length === 0) return <Text>No hay citas</Text>;
   return (
     <View className="flex-1 bg-slate-50">
       {/* Header */}
       <View className="bg-white border-b border-slate-200 px-6 py-4">
-        <View className="flex-row items-center justify-between">
-          <Text className="text-slate-900 text-xl font-semibold mb-4">
-            Mis Citas
-          </Text>
-        </View>
+        <Text className="text-slate-900 text-xl font-semibold mb-4">
+          Mis Citas
+        </Text>
 
         {/* Search Bar */}
         <View className="flex-row items-center bg-slate-50 rounded-xl px-4 py-3 mb-4">
@@ -141,9 +49,9 @@ export default function Appointments() {
           <TextInput
             className="flex-1 ml-3 text-slate-900"
             placeholder="Buscar por nombre, servicio..."
-            placeholderTextColor="#94A3B8"
             value={searchQuery}
             onChangeText={setSearchQuery}
+            placeholderTextColor="#94A3B8"
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => setSearchQuery('')}>
@@ -153,66 +61,70 @@ export default function Appointments() {
         </View>
 
         {/* Filter Badges */}
-        <FilterBadges
-          filters={filters}
-          selectedFilter={selectedFilter}
-          onFilterSelect={setSelectedFilter}
-        />
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          className="flex-row"
+          contentContainerStyle={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 10
+          }}
+        >
+          {filters.map((filter) => (
+            <TouchableOpacity
+              key={filter.label}
+              className={`px-4 py-2 rounded-full border ${
+                selectedFilter === filter.label
+                  ? 'bg-indigo-100 text-indigo-700 border-indigo-200'
+                  : 'border-gray-200'
+              }`}
+              onPress={() => setSelectedFilter(filter.label)}
+            >
+              <Text
+                className={`text-sm font-medium ${
+                  selectedFilter === filter.label ? 'text-indigo-700' : ''
+                }`}
+              >
+                {filter.label} ({filter.count})
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
 
       {/* Content */}
       <View className="flex-1 px-6 py-4">
         {/* Results Header */}
+        <View className="flex-row items-center justify-between mb-4">
+          <Text className="text-slate-600 text-sm">
+            {appointments.length} citas encontradas
+          </Text>
+          <TouchableOpacity className="flex-row items-center">
+            <FilterIcon width={16} height={16} color="#64748B" />
+            <Text className="ml-1 text-slate-600 text-sm font-medium">
+              Filtrar
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {/* Appointments List */}
-        {isLoading ? (
-          <ActivityIndicator size="large" />
-        ) : (
-          <FlashList
-            data={filteredAppointments}
-            keyExtractor={keyExtractor}
-            renderItem={renderItem}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingBottom: 100 }}
-            estimatedItemSize={100}
-            refreshControl={
-              <RefreshControl
-                refreshing={isLoading || isFetching}
-                onRefresh={refetch}
-              />
-            }
-            ListEmptyComponent={<Text>No hay citas</Text>}
-            ListHeaderComponent={() => (
-              <View className="flex-row items-center justify-between mb-4">
-                <Text className="text-slate-600 text-sm">
-                  {filteredAppointments.length} citas encontradas
-                  {selectedFilter !== 'Todas' && ` (${selectedFilter})`}
-                  {searchQuery.trim() !== '' && ` - "${searchQuery}"`}
-                </Text>
-                <View className="flex-row items-center gap-2">
-                  {hasFilters && (
-                    <TouchableOpacity
-                      className="flex-row items-center px-3 py-1 bg-slate-100 rounded-full"
-                      onPress={clearFilters}
-                    >
-                      <CloseCircleIcon width={14} height={14} color="#64748B" />
-                      <Text className="ml-1 text-slate-600 text-xs font-medium">
-                        Limpiar
-                      </Text>
-                    </TouchableOpacity>
-                  )}
-                  <TouchableOpacity className="flex-row items-center">
-                    <FilterIcon width={16} height={16} color="#64748B" />
-                    <Text className="ml-1 text-slate-600 text-sm font-medium">
-                      Filtrar
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )}
-          />
-        )}
+        <FlatList
+          data={appointments}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100 }}
+        />
       </View>
+
+      {/* Floating Action Button */}
+      <TouchableOpacity
+        className="absolute bottom-6 right-6 bg-indigo-600 p-4 rounded-full shadow-lg"
+        activeOpacity={0.8}
+      >
+        <PlusIcon width={24} height={24} color="#fff" />
+      </TouchableOpacity>
     </View>
   );
 }

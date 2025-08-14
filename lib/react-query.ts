@@ -62,14 +62,14 @@ export const queryKeys = {
   // Appointments
   appointments: ['appointments'] as const,
   appointmentsList: (filters?: Record<string, any>) =>
-    [...queryKeys.appointments, 'list', filters] as const,
+    [...queryKeys.appointments, 'list', filters ?? {}] as const,
   appointmentDetail: (id: string) =>
     [...queryKeys.appointments, 'detail', id] as const,
 
   // Clients
   clients: ['clients'] as const,
   clientsList: (filters?: Record<string, any>) =>
-    [...queryKeys.clients, 'list', filters] as const,
+    [...queryKeys.clients, 'list', filters ?? {}] as const,
   clientDetail: (id: string) => [...queryKeys.clients, 'detail', id] as const
 } as const;
 

@@ -17,7 +17,7 @@ import '../global.css';
 export { ErrorBoundary };
 
 function InitialLayout() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   return (
     <SafeAreaView className="flex-1" edges={['top']}>
@@ -27,6 +27,9 @@ function InitialLayout() {
         </Stack.Protected>
         <Stack.Protected guard={isAuthenticated}>
           <Stack.Screen name="(tabs)" options={{ animation: 'fade' }} />
+        </Stack.Protected>
+        <Stack.Protected guard={!isAuthenticated}>
+          <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
         </Stack.Protected>
       </Stack>
       <StatusBar style="auto" animated={true} />

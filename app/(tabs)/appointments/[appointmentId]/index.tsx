@@ -1,23 +1,6 @@
-import { useGetAppointmentById } from '@/modules/core/hooks/appointments/use-appointments';
-import { useLocalSearchParams } from 'expo-router';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  ActivityIndicator
-} from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 export default function AppointmentDetails() {
-  const { appointmentId } = useLocalSearchParams();
-
-  const { data: appointment, isLoading } = useGetAppointmentById(
-    appointmentId as string
-  );
-
-  if (isLoading) return <ActivityIndicator />;
-  if (!appointment) return <Text>Cita no encontrada</Text>;
-
   return (
     <ScrollView
       className="flex-1 bg-white px-6"
@@ -30,7 +13,7 @@ export default function AppointmentDetails() {
           Detalles de la cita
         </Text>
         <Text className="text-slate-500 text-sm mt-1">
-          Código de la cita: {appointment.appointment_code}
+          Código de la cita: #APT-2024-001
         </Text>
       </View>
 
@@ -38,8 +21,8 @@ export default function AppointmentDetails() {
         {/* Status Badge */}
         <View className="flex-row items-center mb-6">
           <View className="bg-green-100 px-3 py-1 rounded-full">
-            <Text className="text-green-800 text-sm font-medium capitalize">
-              {appointment.status}
+            <Text className="text-green-800 text-sm font-medium">
+              Confirmada
             </Text>
           </View>
         </View>
@@ -49,18 +32,12 @@ export default function AppointmentDetails() {
           <View className="flex-row items-center justify-between mb-4">
             <View className="flex-1">
               <Text className="text-slate-900 text-lg font-semibold">
-                {appointment.professional.first_name}{' '}
-                {appointment.professional.last_name}
+                Dr. Juan Pérez
               </Text>
-              <Text className="text-slate-600 text-sm">
-                {appointment.professional.profession}
-              </Text>
+              <Text className="text-slate-600 text-sm">Psicología Clínica</Text>
             </View>
             <View className="w-12 h-12 bg-indigo-100 rounded-full items-center justify-center">
-              <Text className="text-indigo-600 text-lg font-bold">
-                {appointment.professional.first_name.charAt(0)}
-                {appointment.professional.last_name.charAt(0)}
-              </Text>
+              <Text className="text-indigo-600 text-lg font-bold">JP</Text>
             </View>
           </View>
 
@@ -70,17 +47,15 @@ export default function AppointmentDetails() {
               <View>
                 <Text className="text-slate-900 font-medium">Fecha y hora</Text>
                 <Text className="text-slate-600 text-sm mt-1">
-                  {appointment.appointment_date}
+                  Jueves, 15 de Agosto, 2024
                 </Text>
                 <Text className="text-slate-600 text-sm">
-                  {appointment.start_time}
+                  3:00 PM - 4:00 PM
                 </Text>
               </View>
               <View className="items-end">
                 <Text className="text-slate-500 text-xs">Duración</Text>
-                <Text className="text-slate-900 font-medium">
-                  {appointment.duration_minutes} min
-                </Text>
+                <Text className="text-slate-900 font-medium">60 min</Text>
               </View>
             </View>
           </View>
@@ -92,9 +67,9 @@ export default function AppointmentDetails() {
                 Locación
               </Text>
               <Text className="text-slate-600 text-sm">
-                {appointment.professional.business_name}
-                {'\n'}
-                {appointment.location_address}
+                Centro Médico Profesional{'\n'}
+                Suite 304, 123 Calle Salud{'\n'}
+                Lima, Perú
               </Text>
             </View>
 
@@ -103,9 +78,8 @@ export default function AppointmentDetails() {
                 Contacto
               </Text>
               <Text className="text-slate-600 text-sm">
-                Teléfono: {appointment.professional.phone}
-                {'\n'}
-                Email: {appointment.professional.email}
+                Teléfono: (555) 123-4567{'\n'}
+                Email: juan.perez@centromedico.com
               </Text>
             </View>
           </View>
@@ -118,11 +92,13 @@ export default function AppointmentDetails() {
           </Text>
           <View className="flex-row justify-between items-center py-2">
             <Text className="text-slate-600">Tarifa de consulta</Text>
-            <Text className="text-slate-900 font-medium">$50.00</Text>
+            <Text className="text-slate-900 font-medium">S/150.00</Text>
           </View>
           <View className="flex-row justify-between items-center py-2 border-t border-slate-100 mt-2 pt-3">
             <Text className="text-slate-900 font-medium">Total</Text>
-            <Text className="text-slate-900 font-semibold text-lg">$50.00</Text>
+            <Text className="text-slate-900 font-semibold text-lg">
+              S/150.00
+            </Text>
           </View>
           <Text className="text-green-600 text-sm mt-2">✓ Pago confirmado</Text>
         </View>
@@ -143,7 +119,7 @@ export default function AppointmentDetails() {
         </View>
 
         {/* Action Buttons */}
-        <View className="gap-y-3 mb-8">
+        <View className="gap-y-3">
           <View className="flex-row gap-x-3">
             <TouchableOpacity className="flex-1 bg-white border border-slate-300 py-3 rounded-xl">
               <Text className="text-center text-slate-700 font-medium">
