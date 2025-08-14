@@ -7,10 +7,14 @@ import {
   TextInput,
   ScrollView
 } from 'react-native';
-import { Ionicons, Feather } from '@expo/vector-icons';
+import ScheduleCard from '@/modules/core/components/shared/schedule-card';
 import { appointments } from '@/constants/dummy-data';
 import { Appointment } from '@/types/dummy-data.type';
-import ScheduleCard from '@/modules/core/components/shared/schedule-card';
+
+import SearchIcon from '@/assets/icons/search.svg';
+import FilterIcon from '@/assets/icons/filter.svg';
+import CloseCircleIcon from '@/assets/icons/circle-x.svg';
+import PlusIcon from '@/assets/icons/plus.svg';
 
 const filters = [
   {
@@ -18,8 +22,8 @@ const filters = [
     count: appointments.length,
     color: 'bg-slate-100 text-slate-700'
   },
-  { label: 'Confirmadas', count: 3, color: 'bg-green-100 text-green-700' },
-  { label: 'Pendientes', count: 2, color: 'bg-amber-100 text-amber-700' },
+  { label: 'Confirmadas', count: 1, color: 'bg-green-100 text-green-700' },
+  { label: 'Pendientes', count: 1, color: 'bg-amber-100 text-amber-700' },
   { label: 'Canceladas', count: 1, color: 'bg-red-100 text-red-700' }
 ];
 
@@ -41,17 +45,17 @@ export default function Appointments() {
 
         {/* Search Bar */}
         <View className="flex-row items-center bg-slate-50 rounded-xl px-4 py-3 mb-4">
-          <Feather name="search" size={20} color="#64748B" />
+          <SearchIcon width={20} height={20} color="#64748B" />
           <TextInput
             className="flex-1 ml-3 text-slate-900"
             placeholder="Buscar por nombre, servicio..."
-            placeholderTextColor="#94A3B8"
             value={searchQuery}
             onChangeText={setSearchQuery}
+            placeholderTextColor="#94A3B8"
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => setSearchQuery('')}>
-              <Ionicons name="close-circle" size={20} color="#94A3B8" />
+              <CloseCircleIcon width={20} height={20} color="#94A3B8" />
             </TouchableOpacity>
           )}
         </View>
@@ -97,7 +101,7 @@ export default function Appointments() {
             {appointments.length} citas encontradas
           </Text>
           <TouchableOpacity className="flex-row items-center">
-            <Feather name="filter" size={16} color="#64748B" />
+            <FilterIcon width={16} height={16} color="#64748B" />
             <Text className="ml-1 text-slate-600 text-sm font-medium">
               Filtrar
             </Text>
@@ -119,7 +123,7 @@ export default function Appointments() {
         className="absolute bottom-6 right-6 bg-indigo-600 p-4 rounded-full shadow-lg"
         activeOpacity={0.8}
       >
-        <Ionicons name="add" size={24} color="#fff" />
+        <PlusIcon width={24} height={24} color="#fff" />
       </TouchableOpacity>
     </View>
   );

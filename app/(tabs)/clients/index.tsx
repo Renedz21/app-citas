@@ -7,10 +7,19 @@ import {
   TextInput,
   ScrollView
 } from 'react-native';
-import { Ionicons, Feather } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { clients } from '@/constants/dummy-data';
 import { Client } from '@/types/dummy-data.type';
+
+import CalendarIcon from '@/assets/icons/calendar.svg';
+import MailIcon from '@/assets/icons/mail.svg';
+import PhoneIcon from '@/assets/icons/phone.svg';
+import ActivityIcon from '@/assets/icons/activity.svg';
+import ClockIcon from '@/assets/icons/clock.svg';
+import SearchIcon from '@/assets/icons/search.svg';
+import CloseCircleIcon from '@/assets/icons/circle-x.svg';
+import FilterIcon from '@/assets/icons/filter.svg';
+import PlusIcon from '@/assets/icons/plus.svg';
 
 export default function ClientsScreen() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -99,13 +108,13 @@ export default function ClientsScreen() {
       <View className="bg-slate-50 rounded-lg p-3">
         <View className="flex-row items-center justify-between mb-2">
           <View className="flex-row items-center">
-            <Feather name="calendar" size={16} color="#64748B" />
+            <CalendarIcon width={16} height={16} color="#64748B" />
             <Text className="ml-2 text-slate-600 text-sm">
               Última visita: {formatDate(item.lastVisit)}
             </Text>
           </View>
           <View className="flex-row items-center">
-            <Feather name="activity" size={16} color="#64748B" />
+            <ActivityIcon width={16} height={16} color="#64748B" />
             <Text className="ml-2 text-slate-600 text-sm">
               {item.totalSessions} sesiones
             </Text>
@@ -114,7 +123,7 @@ export default function ClientsScreen() {
 
         {item.nextAppointment && (
           <View className="flex-row items-center mb-2">
-            <Ionicons name="time-outline" size={16} color="#10B981" />
+            <ClockIcon width={16} height={16} color="#10B981" />
             <Text className="ml-2 text-emerald-600 text-sm font-medium">
               Próxima cita: {formatDate(item.nextAppointment)}
             </Text>
@@ -123,11 +132,11 @@ export default function ClientsScreen() {
 
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
-            <Feather name="phone" size={16} color="#64748B" />
+            <PhoneIcon width={16} height={16} color="#64748B" />
             <Text className="ml-2 text-slate-600 text-sm">{item.phone}</Text>
           </View>
           <TouchableOpacity className="flex-row items-center">
-            <Feather name="mail" size={16} color="#64748B" />
+            <MailIcon width={16} height={16} color="#64748B" />
             <Text className="ml-1 text-slate-600 text-sm">Email</Text>
           </TouchableOpacity>
         </View>
@@ -153,7 +162,7 @@ export default function ClientsScreen() {
 
         {/* Search Bar */}
         <View className="flex-row items-center bg-slate-50 rounded-xl px-4 py-3 mb-4">
-          <Feather name="search" size={20} color="#64748B" />
+          <SearchIcon width={20} height={20} color="#64748B" />
           <TextInput
             className="flex-1 ml-3 text-slate-900"
             placeholder="Buscar por nombre, diagnóstico..."
@@ -163,7 +172,7 @@ export default function ClientsScreen() {
           />
           {searchQuery.length > 0 && (
             <TouchableOpacity onPress={() => setSearchQuery('')}>
-              <Ionicons name="close-circle" size={20} color="#94A3B8" />
+              <CloseCircleIcon width={20} height={20} color="#94A3B8" />
             </TouchableOpacity>
           )}
         </View>
@@ -208,7 +217,7 @@ export default function ClientsScreen() {
             {clients.length} clientes registrados
           </Text>
           <TouchableOpacity className="flex-row items-center">
-            <Feather name="filter" size={16} color="#64748B" />
+            <FilterIcon width={16} height={16} color="#64748B" />
             <Text className="ml-1 text-slate-600 text-sm font-medium">
               Filtrar
             </Text>
@@ -230,7 +239,7 @@ export default function ClientsScreen() {
         className="absolute bottom-6 right-6 bg-indigo-600 p-4 rounded-full shadow-lg"
         activeOpacity={0.8}
       >
-        <Ionicons name="person-add" size={24} color="#fff" />
+        <PlusIcon width={24} height={24} color="#fff" />
       </TouchableOpacity>
     </View>
   );

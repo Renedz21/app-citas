@@ -33,6 +33,7 @@ yarn-error.*
 *.pem
 
 # Credentials
+credentials/
 credentials.json
 google-service-account.json
 

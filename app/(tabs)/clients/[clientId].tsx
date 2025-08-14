@@ -1,23 +1,24 @@
-import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { Ionicons, Feather } from '@expo/vector-icons';
+import CalendarIcon from '@/assets/icons/calendar.svg';
+import DollarSignIcon from '@/assets/icons/dollar-sign.svg';
+import MailIcon from '@/assets/icons/mail.svg';
+import PhoneIcon from '@/assets/icons/phone.svg';
+import MessageCircleIcon from '@/assets/icons/message-circle.svg';
+import FileTextIcon from '@/assets/icons/file-text.svg';
+import StarIcon from '@/assets/icons/star.svg';
+import WarningIcon from '@/assets/icons/warning.svg';
+import ClockIcon from '@/assets/icons/clock.svg';
+import TagIcon from '@/assets/icons/tag.svg';
+import ArrowLeftIcon from '@/assets/icons/chevron-left.svg';
+import MoreVerticalIcon from '@/assets/icons/ellipsis-vertical.svg';
 import { clients } from '@/constants/dummy-data';
 
 const Tab = createMaterialTopTabNavigator();
 
 // Overview Tab Component
 function OverviewTab({ client }: { client: any }) {
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
-    });
-  };
-
   return (
     <ScrollView
       className="flex-1 bg-slate-50"
@@ -28,7 +29,7 @@ function OverviewTab({ client }: { client: any }) {
         <View className="flex-row gap-3 mb-6">
           <View className="flex-1 bg-white rounded-xl p-4 border border-slate-200">
             <View className="flex-row items-center justify-between mb-2">
-              <Feather name="calendar" size={20} color="#3B82F6" />
+              <CalendarIcon width={20} height={20} color="#3B82F6" />
               <Text className="text-2xl font-bold text-slate-900">
                 {client.totalSessions}
               </Text>
@@ -38,7 +39,7 @@ function OverviewTab({ client }: { client: any }) {
 
           <View className="flex-1 bg-white rounded-xl p-4 border border-slate-200">
             <View className="flex-row items-center justify-between mb-2">
-              <Feather name="dollar-sign" size={20} color="#10B981" />
+              <DollarSignIcon width={20} height={20} color="#10B981" />
               <Text className="text-2xl font-bold text-slate-900">$2,340</Text>
             </View>
             <Text className="text-slate-500 text-sm">Total Spent</Text>
@@ -87,7 +88,7 @@ function OverviewTab({ client }: { client: any }) {
           <View className="gap-y-4">
             <View className="flex-row items-start">
               <View className="w-6 h-6 bg-amber-100 rounded-full items-center justify-center mr-3 mt-0.5">
-                <Ionicons name="warning" size={14} color="#F59E0B" />
+                <WarningIcon width={14} height={14} color="#F59E0B" />
               </View>
               <View className="flex-1">
                 <Text className="text-slate-900 font-medium mb-1">
@@ -101,7 +102,7 @@ function OverviewTab({ client }: { client: any }) {
 
             <View className="flex-row items-start">
               <View className="w-6 h-6 bg-blue-100 rounded-full items-center justify-center mr-3 mt-0.5">
-                <Feather name="star" size={14} color="#3B82F6" />
+                <StarIcon width={14} height={14} color="#3B82F6" />
               </View>
               <View className="flex-1">
                 <Text className="text-slate-900 font-medium mb-1">
@@ -116,7 +117,7 @@ function OverviewTab({ client }: { client: any }) {
             {client.diagnosis && (
               <View className="flex-row items-start">
                 <View className="w-6 h-6 bg-green-100 rounded-full items-center justify-center mr-3 mt-0.5">
-                  <Feather name="file-text" size={14} color="#10B981" />
+                  <FileTextIcon width={14} height={14} color="#10B981" />
                 </View>
                 <View className="flex-1">
                   <Text className="text-slate-900 font-medium mb-1">
@@ -151,7 +152,7 @@ function AppointmentsTab({ client }: { client: any }) {
         {client.nextAppointment && (
           <View className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-4">
             <View className="flex-row items-center mb-2">
-              <Ionicons name="time-outline" size={20} color="#10B981" />
+              <ClockIcon width={20} height={20} color="#10B981" />
               <Text className="ml-2 text-emerald-800 font-medium">
                 Próxima Cita
               </Text>
@@ -245,7 +246,7 @@ function NotesTab({ client }: { client: any }) {
                     : 'Primera sesión. Cliente muy colaborativo, establecimiento de rapport exitoso.'}
               </Text>
               <View className="flex-row items-center">
-                <Feather name="tag" size={14} color="#64748B" />
+                <TagIcon width={14} height={14} color="#64748B" />
                 <Text className="ml-1 text-slate-500 text-xs">
                   {index === 0
                     ? 'Progreso'
@@ -360,14 +361,14 @@ export default function ClientDetailsScreen() {
               onPress={() => router.back()}
               className="p-2 -ml-2 mr-3"
             >
-              <Ionicons name="arrow-back" size={24} color="#64748B" />
+              <ArrowLeftIcon width={24} height={24} color="#64748B" />
             </TouchableOpacity>
             <Text className="text-slate-900 text-xl font-semibold">
               Detalles del Cliente
             </Text>
           </View>
           <TouchableOpacity className="p-2">
-            <Feather name="more-vertical" size={20} color="#64748B" />
+            <MoreVerticalIcon width={20} height={20} color="#64748B" />
           </TouchableOpacity>
         </View>
       </View>
@@ -388,20 +389,20 @@ export default function ClientDetailsScreen() {
               {client.name}
             </Text>
             <View className="flex-row items-center mt-1">
-              <Feather name="mail" size={14} color="#64748B" />
+              <MailIcon width={14} height={14} color="#64748B" />
               <Text className="ml-1 text-slate-600 text-sm">
                 {client.email}
               </Text>
             </View>
             <View className="flex-row items-center mt-1">
-              <Feather name="phone" size={14} color="#64748B" />
+              <PhoneIcon width={14} height={14} color="#64748B" />
               <Text className="ml-1 text-slate-600 text-sm">
                 {client.phone}
               </Text>
             </View>
           </View>
           <TouchableOpacity className="bg-indigo-100 p-2 rounded-lg">
-            <Feather name="message-circle" size={20} color="#4F46E5" />
+            <MessageCircleIcon width={20} height={20} color="#4F46E5" />
           </TouchableOpacity>
         </View>
 

@@ -10,12 +10,14 @@ import {
   SafeAreaProvider,
   SafeAreaView
 } from 'react-native-safe-area-context';
+
+import { ReactQueryProvider } from '@/modules/core/providers/query-provider';
 import '../global.css';
 
 export { ErrorBoundary };
 
 function InitialLayout() {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   return (
     <SafeAreaView className="flex-1" edges={['top']}>
@@ -25,6 +27,9 @@ function InitialLayout() {
         </Stack.Protected>
         <Stack.Protected guard={isAuthenticated}>
           <Stack.Screen name="(tabs)" options={{ animation: 'fade' }} />
+        </Stack.Protected>
+        <Stack.Protected guard={!isAuthenticated}>
+          <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
         </Stack.Protected>
       </Stack>
       <StatusBar style="auto" animated={true} />
@@ -36,11 +41,13 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView className="flex-1">
       <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-        <ThemeProvider value={DefaultTheme}>
-          <KeyboardProvider>
-            <InitialLayout />
-          </KeyboardProvider>
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <ThemeProvider value={DefaultTheme}>
+            <KeyboardProvider>
+              <InitialLayout />
+            </KeyboardProvider>
+          </ThemeProvider>
+        </ReactQueryProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

@@ -20,7 +20,7 @@ export interface Client {
   lastVisit: string;
   nextAppointment?: string;
   totalSessions: number;
-  status: 'Activo' | 'Inactivo' | 'Nuevo';
+  status: string;
   notes: string;
-  diagnosis?: string;
+  diagnosis: string;
 }
