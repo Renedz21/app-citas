@@ -4,6 +4,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
+  withSpring,
   interpolate,
   Extrapolation
 } from 'react-native-reanimated';
@@ -39,8 +40,10 @@ export function Accordion({
 
   // Update animation when isOpen changes
   React.useEffect(() => {
-    animationProgress.value = withTiming(isOpen ? 1 : 0, {
-      duration: 300
+    animationProgress.value = withSpring(isOpen ? 1 : 0, {
+      damping: 20,
+      stiffness: 300,
+      mass: 1
     });
   }, [isOpen, animationProgress]);
 
@@ -66,6 +69,28 @@ export function Accordion({
     };
   });
 
+  // Animated styles for content
+  const contentAnimatedStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      animationProgress.value,
+      [0, 0.3, 1],
+      [0, 0.5, 1],
+      Extrapolation.CLAMP
+    );
+
+    const scale = interpolate(
+      animationProgress.value,
+      [0, 1],
+      [0.95, 1],
+      Extrapolation.CLAMP
+    );
+
+    return {
+      opacity,
+      transform: [{ scaleY: scale }]
+    };
+  });
+
   return (
     <View className={cn(className)}>
       <TouchableOpacity
@@ -87,7 +112,12 @@ export function Accordion({
       </TouchableOpacity>
 
       {isOpen && (
-        <View className={cn('px-4 pb-4', contentClassName)}>{children}</View>
+        <Animated.View
+          style={contentAnimatedStyle}
+          className={cn('px-4 pb-4', contentClassName)}
+        >
+          {children}
+        </Animated.View>
       )}
     </View>
   );
