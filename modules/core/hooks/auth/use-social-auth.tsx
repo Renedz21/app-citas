@@ -19,19 +19,19 @@ export function useSocialAuth() {
         const { createdSessionId, setActive } = await startSSOFlow({
           strategy,
           redirectUrl: AuthSession.makeRedirectUri({
-            path: hasCompletedOnboarding === false ? '/onboarding' : '/',
+            path: '/onboarding',
             scheme: 'appcitas'
           })
         });
 
         if (createdSessionId) {
           setActive!({ session: createdSessionId });
+          setOnboardingCompleted(true);
         }
       } catch (error) {
         console.error('Social sign in error', JSON.stringify(error, null, 2));
       } finally {
         setSocialLoading(false);
-        setOnboardingCompleted(true);
       }
     },
     [
