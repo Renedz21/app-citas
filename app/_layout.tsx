@@ -16,6 +16,7 @@ import { ReactQueryProvider } from '@/modules/core/providers/query-provider';
 
 import '../global.css';
 import { tokenCache } from '@/lib/token-cache';
+import { useUserOnboardingStore } from '@/modules/store/use-user-onboarding';
 
 export { ErrorBoundary };
 
@@ -32,6 +33,7 @@ SplashScreen.setOptions({
 
 function InitialLayout() {
   const { isSignedIn, isLoaded } = useAuth();
+  const { hasCompletedOnboarding } = useUserOnboardingStore();
 
   useEffect(() => {
     if (isLoaded) {
@@ -45,9 +47,10 @@ function InitialLayout() {
         <Stack.Protected guard={!isSignedIn}>
           <Stack.Screen name="(auth)" options={{ animation: 'fade' }} />
         </Stack.Protected>
-        <Stack.Protected guard={!!isSignedIn}>
+        <Stack.Protected guard={!!isSignedIn && hasCompletedOnboarding}>
           <Stack.Screen name="(tabs)" options={{ animation: 'fade' }} />
         </Stack.Protected>
+        <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
       </Stack>
       <StatusBar style="auto" animated={true} />
     </SafeAreaView>

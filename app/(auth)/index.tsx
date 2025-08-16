@@ -4,7 +4,6 @@ import { Platform, Text, View } from 'react-native';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { Button } from '@/modules/core/components/ui/button';
 import { AuthSheetContent } from '@/modules/core/components/auth/auth-sheet-content';
-import { useRouter } from 'expo-router';
 
 import * as WebBrowser from 'expo-web-browser';
 
@@ -23,7 +22,6 @@ export default function Index() {
   useWarmUpBrowser();
   const bottomSheetRef = useRef<BottomSheet>(null);
   const snapPoints = useMemo(() => ['40%'], []);
-  const router = useRouter();
   const openSheet = useCallback(() => {
     bottomSheetRef.current?.expand({
       duration: 200
@@ -49,13 +47,6 @@ export default function Index() {
               variant={'secondary'}
               title="Iniciemos"
               onPress={openSheet}
-              testID="start_on_app"
-            />
-            <Button
-              accessibilityLabel="Iniciemos"
-              variant={'secondary'}
-              title="Iniciemos"
-              onPress={() => router.push('/onboarding')}
               testID="start_on_app"
             />
           </View>

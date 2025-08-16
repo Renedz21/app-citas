@@ -8,6 +8,7 @@ import {
   StepKeys
 } from '@/modules/schemas/onboarding.schema';
 import { useOnboardingStore } from '@/modules/store/use-onboarding-store';
+import { useUserOnboardingStore } from '@/modules/store/use-user-onboarding';
 import { useUser } from '@clerk/clerk-expo';
 
 export type OnboardingStep =
@@ -23,6 +24,7 @@ export default function useOnboarding() {
   const router = useRouter();
   const { user, isLoaded, isSignedIn } = useUser();
   const { formData, updateFormData, clearFormData } = useOnboardingStore();
+  const { setOnboardingCompleted } = useUserOnboardingStore();
   const [currentStep, setCurrentStep] = useState<OnboardingStep>('user-type');
   const [userType, setUserType] = useState<UserType>(null);
 
@@ -99,6 +101,8 @@ export default function useOnboarding() {
   };
 
   const handleStart = () => {
+    // Mark onboarding as completed
+    setOnboardingCompleted(true);
     clearFormData();
     router.replace('/(tabs)');
   };
