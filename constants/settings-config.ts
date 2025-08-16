@@ -180,18 +180,9 @@ export const SETTINGS_SECTIONS: SettingsSection[] = [
         iconColor: '#64748B',
         iconBgColor: 'bg-slate-100',
         type: 'navigation'
-      },
-      {
-        id: 'logout',
-        title: 'Cerrar Sesión',
-        subtitle: 'Salir de la cuenta',
-        icon: LogOutIcon,
-        iconColor: '#EF4444',
-        iconBgColor: 'bg-red-100',
-        type: 'action'
       }
     ]
   }
 ];
 
-export { EditIcon, StarIcon, ChevronRightIcon };
+export { EditIcon, StarIcon, ChevronRightIcon, LogOutIcon };

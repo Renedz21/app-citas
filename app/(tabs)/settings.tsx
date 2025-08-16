@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Switch } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Switch,
+  Alert
+} from 'react-native';
 import { useRouter } from 'expo-router';
 
 import {
@@ -8,14 +15,19 @@ import {
   SETTINGS_SECTIONS,
   EditIcon,
   ChevronRightIcon,
+  LogOutIcon,
   type SettingItem
 } from '@/constants/settings-config';
+import { useClerk } from '@clerk/clerk-expo';
+import { useUserOnboardingStore } from '@/modules/store/use-user-onboarding';
 
 export default function SettingsScreen() {
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(true);
   const [appointmentReminders, setAppointmentReminders] = React.useState(true);
   const [emailNotifications, setEmailNotifications] = React.useState(false);
   const router = useRouter();
+  const { signOut } = useClerk();
+  const { resetOnboarding } = useUserOnboardingStore();
 
   const getSwitchState = (itemId: string) => {
     switch (itemId) {
@@ -51,6 +63,35 @@ export default function SettingsScreen() {
       item.action();
     }
     // For other actions, you can add custom handlers here
+  };
+
+  const handleSignOut = async () => {
+    Alert.alert(
+      'Cerrar Sesión',
+      '¿Estás seguro de que quieres cerrar sesión? Si cierras sesión, tendrás que volver a llenar tus datos de onboarding.',
+      [
+        {
+          text: 'Cancelar',
+          style: 'cancel'
+        },
+        {
+          text: 'Cerrar Sesión',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await signOut();
+              resetOnboarding();
+              // Redirect to your desired page
+              router.replace('/(auth)');
+            } catch (err) {
+              // See https://clerk.com/docs/custom-flows/error-handling
+              // for more info on error handling
+              console.error(JSON.stringify(err, null, 2));
+            }
+          }
+        }
+      ]
+    );
   };
 
   const renderSettingItem = (item: SettingItem, isLast: boolean = false) => {
@@ -198,6 +239,28 @@ export default function SettingsScreen() {
               </View>
             </View>
           ))}
+          <View className="bg-white rounded-xl border border-slate-200">
+            <TouchableOpacity
+              className={`flex-row items-center justify-between p-4`}
+              onPress={handleSignOut}
+            >
+              <View className="flex-row items-center">
+                <View
+                  className={`w-10 h-10 bg-red-100 rounded-full items-center justify-center mr-3`}
+                >
+                  <LogOutIcon width={18} height={18} color={'#EF4444'} />
+                </View>
+                <View>
+                  <Text className={`font-medium text-slate-900`}>
+                    Cerrar sesión
+                  </Text>
+                  <Text className="text-slate-500 text-sm">Cerrar sesión</Text>
+                </View>
+              </View>
+
+              <ChevronRightIcon width={20} height={20} color="#94A3B8" />
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </View>

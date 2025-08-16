@@ -7,7 +7,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-background shadow-lg shadow-background/50 elevation-lg',
+        default: 'bg-primary shadow-lg shadow-background/50 elevation-lg',
         secondary: 'bg-white',
         outline: 'bg-white border border-border',
         ghost: 'bg-transparent '
