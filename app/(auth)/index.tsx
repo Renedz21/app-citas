@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Platform, Text, View } from 'react-native';
 
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
@@ -6,11 +6,24 @@ import { Button } from '@/modules/core/components/ui/button';
 import { AuthSheetContent } from '@/modules/core/components/auth/auth-sheet-content';
 import { useRouter } from 'expo-router';
 
-export default function Index() {
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const router = useRouter();
-  const snapPoints = useMemo(() => ['40%'], []);
+import * as WebBrowser from 'expo-web-browser';
 
+// Browser optimization hook
+export const useWarmUpBrowser = () => {
+  useEffect(() => {
+    void WebBrowser.warmUpAsync();
+    return () => {
+      void WebBrowser.coolDownAsync();
+    };
+  }, []);
+};
+
+WebBrowser.maybeCompleteAuthSession();
+export default function Index() {
+  useWarmUpBrowser();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ['40%'], []);
+  const router = useRouter();
   const openSheet = useCallback(() => {
     bottomSheetRef.current?.expand({
       duration: 200
@@ -35,14 +48,14 @@ export default function Index() {
               accessibilityLabel="Iniciemos"
               variant={'secondary'}
               title="Iniciemos"
-              onPress={() => router.push('/onboarding')}
+              onPress={openSheet}
               testID="start_on_app"
             />
             <Button
               accessibilityLabel="Iniciemos"
               variant={'secondary'}
               title="Iniciemos"
-              onPress={openSheet}
+              onPress={() => router.push('/onboarding')}
               testID="start_on_app"
             />
           </View>
